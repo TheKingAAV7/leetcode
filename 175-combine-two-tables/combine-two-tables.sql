@@ -1,2 +1,6 @@
-SELECT p.firstName,p.lastName,a.city,a.state from Person as p 
-LEFT JOIN Address as a ON p.personId=a.personID;
+SELECT 
+    p.firstName, 
+    p.lastName, 
+    (SELECT city FROM Address a WHERE a.personId = p.personId) AS city, 
+    (SELECT state FROM Address a WHERE a.personId = p.personId) AS state
+FROM Person p;
