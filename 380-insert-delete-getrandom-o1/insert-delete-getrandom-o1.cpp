@@ -3,7 +3,8 @@ unordered_map<int,int>mp;
 vector<int>v;
 public:
     RandomizedSet() {
-        
+        ios::sync_with_stdio(false);
+        cin.tie(nullptr);
     }
     
     bool insert(int val) {
