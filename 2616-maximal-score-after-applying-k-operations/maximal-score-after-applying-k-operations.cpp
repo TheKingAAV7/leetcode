@@ -1,6 +1,7 @@
 class Solution {
 public:
     long long maxKelements(vector<int>& nums, int k) {
+        ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
         priority_queue<int>pq;
         long long ans=0;
         for(int i: nums){
