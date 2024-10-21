@@ -4,9 +4,7 @@ BEGIN
   DECLARE offset INT;
 
   -- Return NULL if N is less than 1
-  IF N <= 0 THEN
-    RETURN NULL;
-  END IF;
+
 
 
   SET offset = N - 1;
