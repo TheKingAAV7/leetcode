@@ -22,14 +22,31 @@ void f(TreeNode* root, unordered_map<int,long long>&mp,int l){
 public:
     long long kthLargestLevelSum(TreeNode* root, int k) {
         vector<long long >ans;
-        unordered_map<int, long long>mp;
         long long sm=0;
-        int l=0;
-        f(root,mp,l);    
-        for(auto it: mp) ans.push_back(it.second);
-        sort(ans.begin(),ans.end(),greater<long long>());
+        queue<TreeNode*>q;
+        q.push(root);
+        TreeNode* tmp;
+        int n;
+        while(!q.empty()){
+            sm=0;
+            n=q.size();
+            for(int i=0;i<n;i++){
+                
+                tmp=q.front();
+                 q.pop();
+                sm+=tmp->val;
+               
+                if(tmp->left) q.push(tmp->left);
+                if(tmp->right) q.push(tmp->right);
+            }
+            ans.push_back(sm);
+        } 
         
-        return  (k-1)>=ans.size()?-1:ans[k-1];
+
+        sort(ans.begin(),ans.end(),greater<long long>());
+        return (k-1)>=ans.size()?-1:ans[k-1];
+         
+       
         
     }
 };
