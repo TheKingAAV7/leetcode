@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool canSortArray(vector<int>& nums) {
-        unordered_map<int, set<int>>mp;
+        unordered_map<int, unordered_set<int>>mp;
         unordered_map<int, int>pos;
         int setb;
         for(int i=0;i<nums.size();i++){
