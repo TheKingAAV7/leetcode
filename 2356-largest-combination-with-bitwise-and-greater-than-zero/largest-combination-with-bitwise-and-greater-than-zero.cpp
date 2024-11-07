@@ -5,7 +5,7 @@ public:
      for(int i=0;i<24;i++){
         int cnt=0;
         for(int num:v){
-            if((num>>i) & 1) cnt++;
+            cnt+= ((num>>i) & 1);
         }
         ans= max(ans, cnt);
 
