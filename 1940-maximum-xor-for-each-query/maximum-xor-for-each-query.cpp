@@ -15,7 +15,8 @@ public:
      
       for(int i=0;i<n;i++){
       int deci=0;
-      
+    //   for(int i: bits) cout<<i<<" ";
+    //     cout<<endl;
       for(int j=0;j<maximumBit;j++){
         if(bits[j]%2==0){
             deci= (deci<<1)|1;
