@@ -2,6 +2,7 @@ class Solution {
 public:
     vector<int> getMaximumXor(vector<int>& nums, int maximumBit) {
       int n=nums.size();
+      
       vector<int>bits(maximumBit,0);
       for(int i=0;i<n;i++){
         for(int j=0;j<maximumBit;j++){
@@ -37,3 +38,10 @@ public:
       return ans;
     }
 };
+
+static const bool fast = []() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    return 0;
+}();
