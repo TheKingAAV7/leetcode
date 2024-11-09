@@ -9,6 +9,11 @@ public:
                 cnt++;
             }
             else{
+                if(cnt==0){
+                    prev=word[i];
+                    cnt=1;
+                    continue;
+                }
                 ans+=(cnt-1);
 
                 prev=word[i];
@@ -16,6 +21,6 @@ public:
             }
         }
         ans+=(cnt-1);
-        return ans+2;
+        return ans+1;
     }
 };
