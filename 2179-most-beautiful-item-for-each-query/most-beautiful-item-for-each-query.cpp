@@ -1,43 +1,44 @@
+
+#include<bits/stdc++.h>
 class Solution {
 public:
     vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
-        sort(items.begin(),items.end());
-        int n = items.size();
-        vector<int> maxBeauty(n),prices(n);
-        maxBeauty[0] = items[0][1];
-        prices[0] = items[0][0];
-        for(int i =1;i<n;i++) {
-            prices[i] = items[i][0];
-            maxBeauty[i] = max(maxBeauty[i-1],items[i][1]);
+       map<int, int>mp;
+       for(auto it: items){
+        if(mp.find(it[0])==mp.end()){
+            mp[it[0]]=it[1];
         }
-        int m = queries.size();
-        vector<int> ans(m);
-        for(int i = 0;i<m;i++) {
-            int idx = bs(prices,queries[i]);
-            if(idx == -1) {
-                ans[i] = 0;
+        else mp[it[0]] = max(mp[it[0]],it[1]);
+       }
+       vector<int>ans;
+       vector<pair<int, int>>st(mp.begin(),mp.end());
+       int maxi=0;
+       for(auto &it:st){
+        maxi=max(it.second,maxi);
+        it.second=maxi;
+       }
+      // for(auto it: st) cout<<it.first<<" "<<it.second<<endl;
+       for(auto i: queries){
+        auto it= lower_bound(st.begin(),st.end(),make_pair(i,0));
+        if(it==st.begin()){
+            if(it->first<=i){
+                ans.push_back(it->second);
             }
-            else {
-                ans[i] = maxBeauty[idx];
-            }
+            else ans.push_back(0);
         }
-        return ans;
-    }
-
-    int bs(vector<int>& prices,int target) {
-        int low = 0;
-        int high = prices.size() - 1;
-        int result = -1;
-        while(low <= high) {
-            int mid = low + (high -low) / 2;
-            if(prices[mid] <= target) {
-                result = mid;
-                low = mid +1;
-            }
-            else {
-                high = mid - 1;
+        else if(it==st.end()){
+            it--;
+            ans.push_back(it->second);
+        }
+        else{
+            if(it->first<=i)
+            ans.push_back(it->second);
+            else{
+                it--;
+                ans.push_back(it->second);
             }
         }
-        return result;
+       }
+       return ans;
     }
 };
