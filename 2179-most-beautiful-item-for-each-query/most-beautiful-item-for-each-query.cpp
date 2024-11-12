@@ -17,7 +17,9 @@ public:
         maxi=max(it.second,maxi);
         it.second=maxi;
        }
-      // for(auto it: st) cout<<it.first<<" "<<it.second<<endl;
+      for(auto it: st) cout<<it.first<<" "<<it.second<<endl;
+
+
        for(auto i: queries){
         auto it= lower_bound(st.begin(),st.end(),make_pair(i,0));
         if(it==st.begin()){
