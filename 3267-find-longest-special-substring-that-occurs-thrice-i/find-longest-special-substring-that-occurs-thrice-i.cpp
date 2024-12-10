@@ -21,9 +21,9 @@ public:
                     tmp+=s[j];
                     if(tmp.size()==1) c=tmp[0];
                     if(mp.find(tmp)!=mp.end() and mp[tmp]>=3){
-                        if(tmp.size()>=ans){
-                            cout<<tmp<<endl;
-                        }
+                        // if(tmp.size()>=ans){
+                        //     cout<<tmp<<endl;
+                        // }
                         ans=max(ans,(int)tmp.size());
                     }
                     }
