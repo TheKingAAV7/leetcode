@@ -1,8 +1,5 @@
 # Write your MySQL query statement below
-select s.score ,
-dense_rank() over w as 'rank'
-from scores s 
-window w as (
-    order by score desc
-)
-
+SELECT 
+    ROUND(score, 2) AS score,
+    DENSE_RANK() OVER (ORDER BY score DESC) AS 'rank'
+FROM Scores;
