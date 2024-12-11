@@ -1,2 +1,5 @@
-select e.name as Employee from Employee e
-where e.managerId is not null and e.salary > (select salary from Employee where id=e.managerId);
+# Write your MySQL query statement below
+select e.name as Employee from 
+employee e
+where
+e.salary > (select m.salary from employee m where m.id=e.managerId )
