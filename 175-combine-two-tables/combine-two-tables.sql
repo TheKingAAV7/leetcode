@@ -1,6 +1,6 @@
-SELECT 
-    p.firstName, 
-    p.lastName, 
-    (SELECT city FROM Address a WHERE a.personId = p.personId) AS city, 
-    (SELECT state FROM Address a WHERE a.personId = p.personId) AS state
-FROM Person p;
+# Write your MySQL query statement below
+select p.firstName, p.lastName , e.city, e.state
+from 
+Person p
+left join Address e
+on p.personId=e.personId
