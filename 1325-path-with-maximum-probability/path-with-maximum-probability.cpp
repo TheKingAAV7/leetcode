@@ -1,37 +1,26 @@
 class Solution {
-private: 
-void f(int n, unordered_map<int,vector<pair<int,double>>>&mp,int start, int end, vector<double>&ans){
-    priority_queue<pair<double,int>>pq;
-
-    pq.push({1,start});
-    while(!pq.empty()){
-        int u= pq.top().second;
-        double dis=pq.top().first;
-        pq.pop();
-        for(auto it: mp[u]){
-            int v=it.first;
-            double w=it.second;
-            if(dis*w > ans[v]){
-                ans[v]=dis*w;
-                pq.push({dis*w,v});
-            }
-
-        }
-
-    }
-}
 public:
     double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
-        vector<double>ans(n,0);
-        ans[start]=1;
-        unordered_map<int,vector<pair<int,double>>>mp;
+        vector<vector<pair<int ,double>>>adj(n);
         for(int i=0;i<edges.size();i++){
-            mp[edges[i][0]].push_back({edges[i][1],succProb[i]});
-            mp[edges[i][1]].push_back({edges[i][0],succProb[i]});
+            adj[edges[i][0]].push_back({edges[i][1],succProb[i]});
+            adj[edges[i][1]].push_back({edges[i][0],succProb[i]});
         }
-        f(n,mp,start, end,ans);
-        return ans[end];
+        priority_queue<pair<double,int>>pq;
+        vector<double>vis(n,0);
+        pq.push({1,start});
+        while(!pq.empty()){
+         auto [x,y]=pq.top();
+         pq.pop();
+         for(auto it: adj[y]){
+            if(x*it.second>vis[it.first]){
+                vis[it.first]=x*it.second;
+                pq.push({vis[it.first],it.first});
+            }
+         }
 
-
+        
+        }
+        return vis[end];
     }
 };
