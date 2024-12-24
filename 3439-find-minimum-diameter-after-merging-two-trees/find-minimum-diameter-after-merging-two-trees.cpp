@@ -50,7 +50,7 @@ public:
         dfs(dfs,0,mp1,maxi1,vis1,0);
         dfs(dfs,0,mp2,maxi2,vis2,0);
         cout<<maxi1<<" "<<maxi2<<endl;
-        return max({maxi1, maxi2, (int)(ceil(maxi1 / 2.0) + ceil(maxi2 / 2.0) + 1)});
+        return max({maxi1,maxi2,(int)(ceil(maxi1/2.0) + ceil(maxi2/2.0)+1)});
         
      
     }
