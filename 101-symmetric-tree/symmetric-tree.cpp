@@ -10,33 +10,17 @@
  * };
  */
 class Solution {
+private:
+bool f(TreeNode* r1,TreeNode* r2){
+    if(!r1 and !r2) return true;
+    if(!r1 || !r2) return false;
+    if(r1->val!=r2->val) return false;
+    bool a=f(r1->left,r2->right);
+    bool b= f(r1->right,r2->left);
+    return a and b;
+}
 public:
     bool isSymmetric(TreeNode* root) {
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty()){
-            int n=q.size();
-            vector<int>ans;
-            while(n--){
-                TreeNode* tmp=q.front();
-                q.pop();
-                if(tmp->left){
-                    q.push(tmp->left);
-                    ans.push_back(tmp->left->val);
-                }
-                if(!tmp->left) ans.push_back(-101);
-                if(tmp->right){
-                    q.push(tmp->right);
-                    ans.push_back(tmp->right->val);
-                }
-                if(!tmp->right) ans.push_back(-101);
-
-            }
-            vector<int>tmp=ans;
-            reverse(tmp.begin(),tmp.end());
-            if(tmp!=ans) return false;
-        }
-        return true;
-
+        return f(root->left,root->right);
     }
 };
