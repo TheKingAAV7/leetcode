@@ -19,8 +19,7 @@ public:
             mp[i]=mp[i]%26;
            
         }
-        for(int i:mp) cout<<i<<" ";
-        cout<<endl;
+        
         for(int i=0;i<n;i++){
              int a=s[i]-'a';
              int b=mp[i];
