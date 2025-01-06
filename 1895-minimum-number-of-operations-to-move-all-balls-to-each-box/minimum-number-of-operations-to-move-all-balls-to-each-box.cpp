@@ -1,36 +1,24 @@
 class Solution {
 public:
     vector<int> minOperations(string boxes) {
-         int n = boxes.length();
-    vector<int> distances(n, 0);
-
-    int prefixCount = 0;  
-    int prefixSum = 0;    
-
-    for (int i = 0; i < n; ++i) {
-        distances[i] = prefixCount * i - prefixSum;
-        if (boxes[i] == '1') {
-            ++prefixCount;
-            prefixSum += i;
+        int n=boxes.size();
+        int cnt=0;
+        if(boxes[0]=='1') cnt++;
+        vector<int>pref(n,0),suff(n,0);
+        for(int i=1;i<n;i++){
+            pref[i]=pref[i-1]+cnt;
+            if(boxes[i]=='1') cnt++;   
         }
-    }
-
-    int suffixCount = 0;  
-    int suffixSum = 0;    
-
-    for (int i = n - 1; i >= 0; --i) {
-        distances[i] += suffixSum - suffixCount * i;
-        if (boxes[i] == '1') {
-            ++suffixCount;
-            suffixSum += i;
+        cnt=0;
+        if(boxes[n-1]=='1')cnt++;
+        for(int i=n-2;i>=0;i--){
+            suff[i]=suff[i+1]+cnt;
+            if(boxes[i]=='1') cnt++;
         }
-    }
-
-    vector<int> ans;
-    for (int dist : distances) {
-       ans.push_back(dist);
-    }
-
-    return ans;
+        vector<int>ans;
+        for(int i=0;i<n;i++){
+            ans.push_back(pref[i]+suff[i]);
+        }
+        return ans;
     }
 };
