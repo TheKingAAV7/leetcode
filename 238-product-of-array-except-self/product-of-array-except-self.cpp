@@ -16,6 +16,6 @@ public:
             ans[i]*=prod;
             prod*=nums[i];
         }
-         return ans; 
+         return move(ans); 
     }
 };
