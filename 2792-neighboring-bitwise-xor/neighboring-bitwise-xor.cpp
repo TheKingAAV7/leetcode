@@ -9,13 +9,13 @@ public:
         return true;
         }
         for(int i=1;i<n;i++){
-            if(derived[i]==1) cnt++;
+            if(derived[i]==1) cnt^=derived[i];
         }
         if(derived[0]==0){
-            if(cnt%2) return false;
+            if(cnt) return false;
             return true;
         }
-        if(cnt%2) return true;
+        if(cnt) return true;
         return false;
     }
 };
