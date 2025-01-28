@@ -1,29 +1,55 @@
 class Solution {
+private:
+    int dx[4] = {0, 0, 1, -1};
+    int dy[4] = {1, -1, 0, 0};
+    
+    bool val(int x, int y, int rows, int cols, vector<vector<int>>& grid) {
+        if (x >= 0 && x < rows && y >= 0 && y < cols && grid[x][y] != 0) return true;
+        return false;
+    }
+
 public:
     int findMaxFish(vector<vector<int>>& grid) {
-        int Max = 0;
-        for (int i = 0; i < grid.size(); i++) {
-            for (int j = 0; j < grid[0].size(); j++) {
-                if (grid[i][j] > 0) {
-                    int C = 0;
-                    queue<pair<int, int>> T;
-                    T.push({i, j});
-                    while (!T.empty()) {
-                        auto [x, y] = T.front();
-                        T.pop();
-                        if (grid[x][y] > 0) {
-                            C += grid[x][y];
-                            grid[x][y] = 0; // Mark as visited
-                            if (x > 0 && grid[x - 1][y] > 0) T.push({x - 1, y});
-                            if (x + 1 < grid.size() && grid[x + 1][y] > 0) T.push({x + 1, y});
-                            if (y > 0 && grid[x][y - 1] > 0) T.push({x, y - 1});
-                            if (y + 1 < grid[0].size() && grid[x][y + 1] > 0) T.push({x, y + 1});
-                        }
+        int m = grid[0].size();
+        int n = grid.size();
+
+        // Lambda function to calculate the max fish starting from a given cell
+        auto f = [&](pair<int, int> start, vector<vector<int>>& grid) -> int {
+            priority_queue<pair<int, pair<int, int>>> pq;
+            vector<vector<int>> dist(n, vector<int>(m, -1));
+            dist[start.first][start.second] = grid[start.first][start.second];
+            pq.push({grid[start.first][start.second], start});
+            int fishSum = grid[start.first][start.second];
+            grid[start.first][start.second] = 0;
+
+            while (!pq.empty()) {
+                auto [d, pos] = pq.top();
+                int x = pos.first, y = pos.second;
+                pq.pop();
+                for (int i = 0; i < 4; i++) {
+                    int nx = x + dx[i];
+                    int ny = y + dy[i];
+                    if (val(nx, ny, n, m, grid)) {
+                        fishSum += grid[nx][ny];
+                        pq.push({grid[nx][ny], {nx, ny}});
+                        grid[nx][ny] = 0;
                     }
-                    Max = max(Max, C);
+                }
+            }
+            return fishSum;
+        };
+
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] != 0) {
+                    vector<vector<int>> tempGrid = grid; // Copy grid for each call
+                    pair<int, int> start = {i, j};
+                    int tmp = f(start, tempGrid);
+                    ans = max(ans, tmp);
                 }
             }
         }
-        return Max;
+        return ans;
     }
 };
