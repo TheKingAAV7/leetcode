@@ -1,37 +1,40 @@
 class Solution {
 private:
-void f(int node,vector<int>&vis,vector<int>&time,vector<int>adj[],int cnt,int par){
+void f(int node,vector<set<int>>&adj,vector<int>&vis){
+    if(vis[node]==1) return;
     vis[node]=1;
-    time[node]=cnt;
     for(auto it:adj[node]){
         if(vis[it]==0){
-            f(it,vis,time,adj,cnt+1,node);
-        }
-    }
-    for(auto it:adj[node]){
-        if(it!=par){
-            time[node]=min(time[it],time[node]);
+            f(it,adj,vis);
         }
     }
     return;
-
 }
 public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         int n=edges.size();
-        vector<int>adj[n+1];
-       vector<int>vis(n+1,0);
-       vector<int>time(n+1,1e9);
-       for(auto it:edges){
-        adj[it[0]].push_back(it[1]);
-        adj[it[1]].push_back(it[0]);
-       }
-       int cnt=0;
-       f(1,vis,time,adj,cnt,-1);
-       for(int i=n-1;i>=0;i--){
-        auto it=edges[i];
-        if(time[it[0]]==time[it[1]]) return it;
-       }
+        vector<set<int>>adj(n+1);
+        for(auto it:edges){
+           adj[it[0]].insert(it[1]);
+           adj[it[1]].insert(it[0]);
+        }
+        for(int i=n-1;i>=0;i--){
+            vector<int>vis(n+1,0);
+            adj[edges[i][0]].erase(edges[i][1]);
+            adj[edges[i][1]].erase(edges[i][0]);
+            f(1,adj,vis);
+            bool ff=true;
+            for(int j=1;j<=n;j++){
+            if(vis[j]==0){
+                ff=false;
+                break;
+            }
+            }
+            if(ff) return edges[i];
+            adj[edges[i][0]].insert(edges[i][1]);
+            adj[edges[i][1]].insert(edges[i][0]);
+
+        }
         return {};
     }
 };
