@@ -1,35 +1,40 @@
 class Solution {
 public:
-    int n, az;
-    bitset<21> viz = 0;
-    vector<int> ans;
-    
-    bool dfs(int pos) {
-        if (pos==az) return viz.count()==n;  // Base case: all numbers used
-        if (ans[pos]!= 0) return dfs(pos+1);  // Skip if already filled
-        
-        for (int j=n; j>= 1; j--) {  // larger first
-            if (viz[j]) continue;  // If j is used, skip
-            int next_pos=(j>1)?pos+j:pos;  // should put j
-            
-            if (next_pos>=az || ans[next_pos]!=0) continue;  // Ensure valid placement
-            
-            ans[pos]=ans[next_pos]= j;  // Place j
-            viz[j]=1;
-            
-            if (dfs(pos+1)) return 1;  // Recurse
-            
-            // Backtrack
-            ans[pos]=ans[next_pos]=viz[j]=0;
-        }
-        return 0;
+    vector<int> constructDistancedSequence(int n) {
+        vector<int> result(2 * n - 1, 0);
+        vector<bool> used(n + 1, false);
+        backtrack(result, used, n, 0);
+        return result;
     }
 
-    vector<int> constructDistancedSequence(int n) {
-        this->n=n;
-        az=2*n-1;
-        ans.assign(az, 0);
-        dfs(0);
-        return ans;
+private:
+    bool backtrack(vector<int>& result, vector<bool>& used, int n, int index) {
+        while (index < result.size() && result[index] != 0) {
+            index++;
+        }
+        if (index == result.size()) {
+            return true;
+        }
+
+        for (int i = n; i >= 1; i--) {
+            if (used[i]) continue;
+
+            if (i == 1) {
+                result[index] = 1;
+                used[1] = true;
+                if (backtrack(result, used, n, index + 1)) return true;
+                result[index] = 0;
+                used[1] = false;
+            } else if (index + i < result.size() && result[index + i] == 0) {
+                result[index] = i;
+                result[index + i] = i;
+                used[i] = true;
+                if (backtrack(result, used, n, index + 1)) return true;
+                result[index] = 0;
+                result[index + i] = 0;
+                used[i] = false;
+            }
+        }
+        return false;
     }
 };
