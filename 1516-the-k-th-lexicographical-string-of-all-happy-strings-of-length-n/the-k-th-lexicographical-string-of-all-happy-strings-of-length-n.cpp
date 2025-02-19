@@ -1,14 +1,13 @@
 class Solution {
     
 private:
-map<string,int>mp;
+
 void f(int n, vector<string>&st,string &tmp,char prev){
 if(tmp.length()==n){
-    if(mp.find(tmp)==mp.end()){
+    
         st.push_back(tmp);
-        mp[tmp]=1;
-        return;
-    }
+        
+    
     return;
 }
 
