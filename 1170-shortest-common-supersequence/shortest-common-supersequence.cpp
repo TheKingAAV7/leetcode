@@ -21,12 +21,12 @@ public:
         //     cout<<endl;
         // }
        
-        string tmp="";
+       
         int i1=n-1,j1=m-1;
         vector<int>v1,v2;
         while(i1>=0 and j1>=0){
             if(s[i1]==t[j1]){
-                tmp.push_back(s[i1]);
+               
                 v1.push_back(i1);
                 v2.push_back(j1);
                 i1--;
@@ -39,16 +39,16 @@ public:
                 else j1--;
             }
         }
-        reverse(tmp.begin(),tmp.end());
+        
         reverse(v1.begin(),v1.end());
         reverse(v2.begin(),v2.end());
-        for(int i:v1) cout<<i<<" ";
-        cout<<endl;
-        for(int j:v2) cout<<j<<" ";
-        cout<<endl;
+        // for(int i:v1) cout<<i<<" ";
+        // cout<<endl;
+        // for(int j:v2) cout<<j<<" ";
+        // cout<<endl;
         
         
-        string lef="",mid="",rig="";
+        string lef="",rig="";
         if(!v1.empty()){
         for(int i=0;i<v1[0];i++){
             lef.push_back(s[i]);
