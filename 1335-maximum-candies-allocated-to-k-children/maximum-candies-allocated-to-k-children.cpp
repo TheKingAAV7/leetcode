@@ -2,7 +2,7 @@ class Solution {
 public:
     int maximumCandies(vector<int>& candies, long long k) {
         int ans=0;
-        long long  lo=1,hi=1e12;
+        long long  lo=1,hi=accumulate(candies.begin(),candies.end(),0ll);
         auto f=[&](long long p)->bool{
             long long cnt=0;
             for(long long i:candies){
