@@ -3,7 +3,7 @@ class Solution {
 public:
     long long repairCars(vector<int>& ranks, int cars) {
         sort(ranks.begin(),ranks.end());
-        ll lo=0,hi=1e18;
+        ll lo=0,hi=1LL*ranks[0]*cars*cars;
         ll ans=hi;
         auto f=[&](ll m)->bool{
             ll cnt=0;
