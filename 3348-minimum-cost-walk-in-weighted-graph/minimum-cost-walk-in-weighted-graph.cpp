@@ -1,84 +1,74 @@
-class DSU{
-
-public:
-vector<int>rank,parent;
-DSU(int n){
-    rank.resize(n,0);
-    parent.resize(n);
-    for(int i=0;i<n;i++) parent[i]=i;
-}
-int find(int i){
-    if(parent[i]==i) return i;
-    return parent[i]=find(parent[i]);
-}
-void uni(int i, int j){
-    int ipar=find(i);
-    int jpar=find(j);
-    if(ipar==jpar) return;
-    if(rank[ipar]<rank[jpar]){
-        parent[ipar]=jpar;
-    }
-    else if(rank[ipar]>rank[jpar]) {
-        parent[jpar]=ipar;
-    }
-    else{
-        parent[jpar]=ipar;
-        rank[ipar]++;
-    }
-}
-
-};
-
-
 class Solution {
-private:
-void dfs(int node, vector<vector<int>>&mp,vector<int>&vis,vector<vector<pair<int,int>>>&adj, DSU &ds){
-    vis[node]=1;
-    for(auto it:adj[node]){
-        int pari=ds.find(it.first);
-        if(mp[pari].size()==0){
-        mp[pari].push_back(it.second);
+public:
+    vector<int> parent;
+    vector<int> rank;
+    
+    int find(int x) {
+        if (x == parent[x]) {
+            return x;
         }
-        else{
-           int tmp= mp[pari].back();
-           mp[pari].pop_back();
-            mp[pari].push_back((it.second&tmp));
+        return parent[x] = find(parent[x]);
+    }
+
+    void Union(int x, int y) {
+        int parent_x = find(x);
+        int parent_y = find(y);
+        if (parent_x == parent_y) return;
+        
+        if (rank[parent_x] < rank[parent_y]) {
+            parent[parent_x] = parent_y;
         }
-        if(vis[it.first]==0){
-            
-            dfs(it.first,mp,vis,adj,ds);
+        else if (rank[parent_y] < rank[parent_x]) {
+            parent[parent_y] = parent_x;
+        }
+        else {
+            parent[parent_y] = parent_x;
+            rank[parent_x]++;
         }
     }
-    return;
-}
-public:
+    
+    // Removed dfs function because DSU alone is enough
+
     vector<int> minimumCost(int n, vector<vector<int>>& edges, vector<vector<int>>& query) {
-        vector<vector<int>>mp(n);
-        vector<vector<pair<int,int>>>adj(n);
-        vector<int>ans;
-        DSU ds(n);
-        for(auto it:edges){
-          ds.uni(it[0],it[1]);
-         adj[it[0]].push_back({it[1],it[2]});
-         adj[it[1]].push_back({it[0],it[2]});   
+        parent.resize(n);
+        rank.resize(n);
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            rank[i] = 1;
         }
-        vector<int>vis(n,0);
-        for(int i=0;i<n;i++){
-           // cout<<ds.parent[i]<<" ";
-            if(vis[i]==0){
-                dfs(i,mp,vis,adj,ds);
-            }
+        
+        // Union all edges to form connected components.
+        for (auto &edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            Union(u, v);
         }
-        //cout<<endl;
-        for(auto it:query){
-            int x=ds.find(it[0]);
-            int y=ds.find(it[1]);
-            if(x==y){
-                int tmp=mp[x].back();
-                ans.push_back(tmp);
-            }
-            else ans.push_back(-1);
+        
+        // For weights <= 10^5, we can use 18 bits (all ones) as the initial mask.
+        const int ALL_ONES = (1 << 18) - 1;
+        // For each component representative, store the AND of all edge weights in that component.
+        vector<int> compCost(n, ALL_ONES);
+        
+        // Update the mask for each component using each edge.
+        for (auto &edge : edges) {
+            int u = edge[0], w = edge[2];
+            int comp = find(u);
+            compCost[comp] &= w;
         }
-        return ans;
+        
+        int q = query.size();
+        vector<int> result(q, -1);
+        
+        // Answer each query:
+        // If s and t are in the same component, return that component's mask; otherwise, return -1.
+        for (int i = 0; i < q; i++) {
+            int s = query[i][0], t = query[i][1];
+            if (find(s) != find(t))
+                result[i] = -1;
+            else
+                result[i] = compCost[find(s)];
+        }
+        
+        return result;
     }
 };
