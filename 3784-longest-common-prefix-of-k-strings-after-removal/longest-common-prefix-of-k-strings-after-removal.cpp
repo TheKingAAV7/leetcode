@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<int> longestCommonPrefix(vector<string>& words, int k) {
-        map<string,int>mp;
+        unordered_map<string,int>mp;
         int mxlen=0;
         for(auto &it:words){
             mxlen=max((int)it.length(),mxlen);
