@@ -1,6 +1,8 @@
 class Solution {
 public:
     int countDays(int days, vector<vector<int>>& meet) {
+        ios_base::sync_with_stdio(false);
+cin.tie(NULL);
         sort(meet.begin(),meet.end());
         int n=meet.size();
         int ans=0;
