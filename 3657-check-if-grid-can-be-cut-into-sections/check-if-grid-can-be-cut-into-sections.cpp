@@ -1,30 +1,40 @@
-class Solution {
+class Solution {  //  (0 2) (2 4)  (4 6)
 public:
-vector<vector<int>> mergeIntervals(vector<vector<int>>& intervals) {
-   
-   
-    sort(intervals.begin(), intervals.end());
-    vector<vector<int>> merged;
-        merged.push_back(intervals[0]);
-    for (int i = 1; i < intervals.size(); ++i) {
-        if (intervals[i][0] < merged.back()[1]) {
-            merged.back()[1] = max(merged.back()[1], intervals[i][1]);
-        } else {
-            merged.push_back(intervals[i]);
-        }
-    }
-
-    return merged;
-}
     bool checkValidCuts(int n, vector<vector<int>>& rectangles) {
-        vector<vector<int>> vertical;
-        vector<vector<int>> horizontal;
-        for(auto it: rectangles){
-            vertical.push_back({it[1],it[3]}); // vertical view
-            horizontal.push_back({it[0],it[2]}); // horizontal view
+        vector<pair<int,int>>ver,hor;
+        
+        for(auto it:rectangles){
+            int y1=it[1];
+            int y2=it[3];
+            ver.push_back({y1,y2});
         }
-        vector<vector<int>> mergeH= mergeIntervals(horizontal);
-        vector<vector<int>> mergev= mergeIntervals(vertical);
-        return mergeH.size()>=3 || mergev.size()>=3; 
+        for(auto it:rectangles){
+            hor.push_back({it[0],it[2]});
+        }
+        auto f=[&](vector<pair<int,int>>&inter)->int{
+            
+            int m=inter.size();
+            vector<pair<int,int>>tmp;
+            tmp.push_back(inter[0]);
+            for(int i=1;i<m;i++){
+                if(inter[i].first<tmp.back().second){
+                    tmp.back().second=max(tmp.back().second,inter[i].second);
+                }
+                else{
+                    tmp.push_back(inter[i]);
+                }
+            }
+           
+            return tmp.size();
+           
+         
+
+        };
+        sort(ver.begin(),ver.end());
+        sort(hor.begin(),hor.end());
+        
+        if(f(ver)>=3 || f(hor)>=3)
+        return true;
+        return false;
     }
 };
