@@ -37,14 +37,14 @@ public:
            }
         }
         if(pos==n-1) return -1;
-       map<int,int>mp;
+        int cnt2=0;
        
         for(int i=pos+1;i<n;i++){
             if(nums[i]==ele){
-                mp[ele]++;
+                cnt2++;
             }
         }
-        return mp[ele]>((n-pos-1)/2)?pos:-1;
+        return cnt2>((n-pos-1)/2)?pos:-1;
         
     }
 };
