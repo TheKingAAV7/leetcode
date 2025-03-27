@@ -2,15 +2,30 @@ class Solution {
 public:
     int minimumIndex(vector<int>& nums) {
         int n=nums.size();
-        map<int,int>mp;
+        
         int ele=-1;
+        int cnt=0;
         for(int i=0;i<n;i++){
-            mp[nums[i]]++;
-            if(mp[nums[i]]>n/2) ele=nums[i];
+            if(ele==-1){
+                ele=nums[i];
+                cnt=1;
+            }
+            else if(nums[i]==ele){
+                cnt++;
+            }
+            else {
+                cnt--;
+                if(cnt==0) {
+                    ele=nums[i];
+                    cnt=1;
+                }
+            }
+
         }
+       
         
         if(ele==-1) return -1;
-        mp.clear();
+        map<int,int>mp;
         int pos=0;
         for(int i=0;i<n;i++ ){
            if(nums[i]==ele){
