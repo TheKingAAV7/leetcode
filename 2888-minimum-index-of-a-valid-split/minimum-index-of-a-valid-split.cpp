@@ -20,31 +20,30 @@ public:
                     cnt=1;
                 }
             }
-
         }
        
         
         if(ele==-1) return -1;
-        int cnt1=0;
+        cnt=0;
         int pos=0;
-        for(int i=0;i<n;i++ ){
+        for(int i=0;i<n;i++){
            if(nums[i]==ele){
-            cnt1++;
-            if(cnt1>(i+1)/2){
+            cnt++;
+            if(cnt>(i+1)/2){
                 pos=i;
                 break;
             }
            }
         }
         if(pos==n-1) return -1;
-        int cnt2=0;
+        cnt=0;
        
         for(int i=pos+1;i<n;i++){
             if(nums[i]==ele){
-                cnt2++;
+                cnt++;
             }
         }
-        return cnt2>((n-pos-1)/2)?pos:-1;
+        return cnt>((n-pos-1)/2)?pos:-1;
         
     }
 };
