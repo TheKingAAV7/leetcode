@@ -25,19 +25,20 @@ public:
        
         
         if(ele==-1) return -1;
-        map<int,int>mp;
+        int cnt1=0;
         int pos=0;
         for(int i=0;i<n;i++ ){
            if(nums[i]==ele){
-            mp[ele]++;
-            if(mp[ele]>(i+1)/2){
+            cnt1++;
+            if(cnt1>(i+1)/2){
                 pos=i;
                 break;
             }
            }
         }
         if(pos==n-1) return -1;
-        mp.clear();
+       map<int,int>mp;
+       
         for(int i=pos+1;i<n;i++){
             if(nums[i]==ele){
                 mp[ele]++;
