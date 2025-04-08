@@ -11,7 +11,7 @@ public:
             }
             mp[nums[i]]=i;
         }
-        cout<<maxi<<endl;
+       
 
         return ceil((1.0*(maxi+1))/3.0);
     }
