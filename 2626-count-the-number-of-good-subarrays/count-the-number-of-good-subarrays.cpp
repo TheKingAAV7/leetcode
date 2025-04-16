@@ -3,7 +3,7 @@ class Solution {
 public:
     long long countGood(vector<int>& nums, int k) {
         ll cnt=0;
-        map<int,int>mp;
+        unordered_map<int,int>mp;
         int n=nums.size();
         int l=0;
         ll ans=0;
