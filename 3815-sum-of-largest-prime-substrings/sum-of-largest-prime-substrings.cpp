@@ -3,8 +3,10 @@ public:
     long long sumOfLargestPrimes(string s) {
         set<long long>st;
         auto f=[&](long long no)->bool{
-            if(no==1) return false;
-            if(no==2) return true;
+            if(no<=1) return false;
+            if(no<=3) return true;
+            else if (no % 2 == 0 || no % 3 == 0)
+            return false;
             for(long long i=2;i*i<=no;i++){
                 if(no%i==0) return false;
             }
