@@ -4,17 +4,19 @@ public:
        // sum[i]<sum[i+1]
        // no[i]<no[i+1]    
        int ans=1;
+       sort(grades.begin(),grades.end());
        int n=grades.size();
-       auto f=[&](int k)->bool{
+
         int prev=grades[0];
         int cnt=1;
-        int gps=1;
+        int gps=1; // 3 5 6 7 10 12
         int sm=0;
         int cur_cnt=0;
         for(int i=1;i<n;i++){
             sm+=grades[i];
             cur_cnt++;
             if(sm>prev and cur_cnt>cnt){
+              //  cout<<i<<endl;
                 gps++;
                 cnt=cur_cnt;
                 prev=sm;
@@ -22,22 +24,8 @@ public:
                 sm=0;
             }
         }
-        return gps>=k;
-
-       };
+       // if(sm>prev and cur_cnt>cnt) gps++;
        
-       sort(grades.begin(),grades.end());
-       int lo=1,hi=n;
-       while(lo<=hi){
-        int mid=(lo+hi)>>1;
-        if(f(mid)){
-            ans=mid;
-            lo=mid+1;
-        }
-        else hi=mid-1;
-       }
-       
-       return ans;
-       
+       return gps;
     }
 };
