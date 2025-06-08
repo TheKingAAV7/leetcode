@@ -2,13 +2,14 @@ class Solution {
 private:
 void f(int n,vector<int>&ans,string& tmp,int len){
 
-
+if(len>=0){
     if(tmp!=""){
     int num=stoi(tmp);
     if(num<=n) ans.push_back(num);
     else return;
     }
-
+}
+else return;
 if(tmp==""){
 for(char c='1';c<='9';c++){
     tmp.push_back(c);
