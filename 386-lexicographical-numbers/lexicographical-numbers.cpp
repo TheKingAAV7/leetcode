@@ -1,35 +1,38 @@
 class Solution {
-private: 
-void f(string tmp, vector<int>&ans, int n){
-if(stoi(tmp)>n) return ;
-ans.push_back(stoi(tmp));
+private:
+void f(int n,vector<int>&ans,string& tmp,int len){
 
-for(char c='0'; c<='9';c++){
-    string s= tmp+c;
-    //cout<<s<<endl;
-    if(stoi(s)<=n){
-        f(s, ans, n);
+
+    if(tmp!=""){
+    int num=stoi(tmp);
+    if(num<=n) ans.push_back(num);
+    else return;
     }
-    else break;
-}
-return ;
 
+if(tmp==""){
+for(char c='1';c<='9';c++){
+    tmp.push_back(c);
+    f(n,ans,tmp,len-1);
+    tmp.pop_back();
 }
+}
+else{
+    for(char c='0';c<='9';c++){
+        tmp.push_back(c);
+        f(n,ans,tmp,len-1);
+        tmp.pop_back();
+    }
+}
+return;
+}
+
 public:
     vector<int> lexicalOrder(int n) {
         vector<int>ans;
-        
-        for(char a='1' ; a<='9'; a++){
-            string tmp="";
-            tmp+=a;
-            int curr= stoi(tmp);
-            if(curr<=n){
-                
-                
-                f(tmp, ans, n);
-            }
-           
-        }
+        string num=to_string(n);
+        int len=num.size();
+        string tmp="";
+        f(n,ans,tmp,len);
         return ans;
     }
 };
