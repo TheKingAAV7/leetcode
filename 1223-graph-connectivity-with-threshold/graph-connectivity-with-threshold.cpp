@@ -42,11 +42,7 @@ public:
     }
         for(auto it:queries){
             int g=gcd(it[0],it[1]);
-            if(g>threshold){
-                uni(it[0],it[1]);
-                ans.push_back(true);
-                continue;
-            }
+            
             if(unif(it[0],it[1])){
                 ans.push_back(true);
                 continue;
