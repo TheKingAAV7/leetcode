@@ -3,21 +3,20 @@ private:
 vector<int>segtree,nums;
 int n;
 
-int up(int idx, int lef, int rig,int ind, int val){
-    if(lef==ind and rig==ind){
-        segtree[idx]=val;
-        return segtree[idx];
+void up(int i, int lef, int rig, int idx, int val){
+    if(lef==rig){
+        segtree[i]=val;
+        nums[lef]=val;
+        return;
     }
     int mid=(lef+rig)/2;
-    if(ind<=mid){
-        int left=up(2*idx+1,lef,mid,ind,val);
-        segtree[idx]=left+segtree[2*idx+2];
-        return segtree[idx];
+    if(idx<=mid){
+        up(2*i+1,lef, mid, idx, val);
     }
-    int right=up(2*idx+2,mid+1,rig,ind, val);
-    segtree[idx]=segtree[2*idx+1]+right;
-    return segtree[idx];
-    
+    else up(2*i+2, mid+1, rig, idx, val);
+
+    segtree[i]=segtree[2*i+1]+segtree[2*i+2];
+    return;
 }
 int bt(int idx, int lef, int rig, vector<int>&nums){
     if(lef==rig){
