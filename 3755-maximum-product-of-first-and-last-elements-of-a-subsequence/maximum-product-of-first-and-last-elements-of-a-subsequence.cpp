@@ -3,24 +3,24 @@ public:
     long long maximumProduct(vector<int>& nums, int m) {
         long long ans=LLONG_MIN;
         int n=nums.size();
-        vector<long long>pmx(n,LLONG_MIN),pmin(n,LLONG_MAX);
-
-        long long maxi=LLONG_MIN,mini=LLONG_MAX;
+        long long maxi=INT_MIN;
+        vector<long long>v1(n,0),v2(n,0);
+        long long mini=INT_MAX;
         for(int i=n-1;i>=0;i--){
-            maxi=max(maxi,nums[i]*1LL);
-            mini=min(mini,nums[i]*1LL);
-            pmx[i]=maxi;
-            pmin[i]=mini;
+            maxi=max(nums[i]*1ll,maxi);
+            mini=min(mini,nums[i]*1ll);
+            v1[i]=maxi;
+            v2[i]=mini;
         }
         for(int i=0;i<n;i++){
-            int nxt=i+m-1;
-            if(nxt<n){
-                long long tmp1=pmx[nxt]*nums[i];
-                long long tmp2=pmin[nxt]*nums[i];
-                ans=max({ans,tmp1,tmp2});
+            if(i+m-1<n){
+              
+                long long tmp=nums[i]*v1[i+m-1]*1ll;
+                long long tmp1=nums[i]*v2[i+m-1]*1ll;
+                ans=max({ans,tmp1,tmp});
             }
         }
         return ans;
-    }
 
+    }
 };
