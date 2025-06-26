@@ -11,7 +11,7 @@ public:
     bool transfer(int a1, int a2, long long money) {
         a1--;
         a2--;
-        if(a1>=0 and a1<n and a2>=0 and a2<n){
+        if(a1>=0 and a1<n and a2>=0 and a2<=n){
             if(b[a1]>=money){
                 b[a1]-=money;
                 b[a2]+=money;
