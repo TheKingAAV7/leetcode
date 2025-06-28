@@ -6,16 +6,13 @@ int f(int x, int y, int z,vector<vector<vector<int>>>&dp){
     int ans=0;
     for(int i=x+1;i<y;i++){
         ans=max(1+f(i,y,z,dp),ans);
+        ans=max(1+f(x,i,y,dp),ans);
     }
     for(int j=y+1;j<z;j++){
         ans=max(1+f(y,j,z,dp),ans);
+        ans=max(1+f(x,y,j,dp),ans);
     }
-    for(int i=y+1;i<z;i++){
-        ans=max(1+f(x,y,i,dp),ans);
-    }
-    for(int j=x+1;j<y;j++){
-        ans=max(1+f(x,j,y,dp),ans);
-    }
+   
     return dp[x][y][z]=ans;
 }
 public:
