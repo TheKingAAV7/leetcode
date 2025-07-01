@@ -1,25 +1,20 @@
 class Solution {
 public:
     int possibleStringCount(string word) {
-        int cnt=0;
-        int ans =0;
-        char prev='-';
-        for(int i=0;i<word.size();i++){
-            if(word[i]==prev){
+        int cnt=1;
+        int ans=0;
+        char prev='.';
+        for(char c:word){
+            if(c==prev){
                 cnt++;
             }
-            else{
-                if(cnt==0){
-                    prev=word[i];
-                    cnt=1;
-                    continue;
-                }
+            else {
                 ans+=(cnt-1);
-
-                prev=word[i];
+                prev=c;
                 cnt=1;
             }
         }
+     
         ans+=(cnt-1);
         return ans+1;
     }
