@@ -1,7 +1,7 @@
 class Solution {
 public:
     int threeSumMulti(vector<int>& arr, int target) {
-        map<int,int>mp;
+        unordered_map<int,int>mp;
         int mod=1e9+7;
         int n=arr.size();
         long long ans=0;
