@@ -1,54 +1,44 @@
-using info = tuple<int, short, short>; // (time, i, j)
-const static int d[5] = {0, 1, 0, -1, 0};
+#define ll long long
 class Solution {
 public:
-    inline static bool isOutside(short i, short j, short n, short m) {
-        return i < 0 || i >= n || j < 0 || j >= m;
-    }
-
     int minimumTime(vector<vector<int>>& grid) {
-        if (grid[1][0]>1 && grid[0][1]>1)  return -1;// edge case
-    
-        short n = grid.size(), m = grid[0].size();
-        vector<vector<int>> time(n, vector<int>(m, INT_MAX));
-        priority_queue<info, vector<info>, greater<info>> pq;
-
-        // Start at (0, 0) with time=0 
-        pq.emplace(0, 0, 0);
-        time[0][0] = 0;
-        while (!pq.empty()) {
-            auto [t, i, j] = pq.top();
+        priority_queue<vector<ll>,vector<vector<ll>>,greater<>>pq;
+        vector<int>row={-1,1,0,0};
+        vector<int>col={0,0,-1,1};
+        int n=grid.size(),m=grid[0].size();
+        vector<vector<ll>>dist(n,vector<ll>(m,LLONG_MAX));
+        if (n > 1 && m > 1
+    && grid[0][1] > 1
+    && grid[1][0] > 1)
+  return -1;
+        // time, i, j
+        pq.push({0,0,0});
+        dist[0][0]=0;
+        while(!pq.empty()){
+            ll tim=pq.top()[0];
+            ll i=pq.top()[1];
+            ll j=pq.top()[2];
+            if(i==n-1 and j==m-1) return tim;
             pq.pop();
-        //    cout<<" t="<<int(t)<<" i="<<int(i)<<" j="<<int(j)<<endl;
-            // reach the destination
-            if (i == n - 1 && j == m - 1)
-                return t;
-
-            // Traverse all four directions
-            for (int a = 0; a < 4; a++) {
-                int r = i + d[a], s = j + d[a + 1];
-                if (isOutside(r, s, n, m)) continue;
-
-                // minimum time to reach (r, s)
-                int w=((grid[r][s]-t)&1)?0:1;
-                int nextTime = max(t+1, grid[r][s]+w); // backward if neccessary
-
-                // update if this path having quicker time
-                if (nextTime < time[r][s]) {
-                    time[r][s] = nextTime;
-                    pq.emplace(nextTime, r, s);
+            for(int k=0;k<4;k++){
+                ll nx=i+row[k];
+                ll ny=j+col[k];
+                if(nx>=0 and nx<n and ny>=0 and ny<m){
+                    ll newdist=tim+1;
+                    if(newdist<grid[nx][ny]){
+                      ll wait = grid[nx][ny];
+  if ((wait - newdist) % 2 == 1) 
+    wait++;           // bump one more second if the gap is odd
+  newdist = wait;
+                    }
+                    if(newdist<dist[nx][ny]){
+                        dist[nx][ny]=newdist;
+                        pq.push({newdist,nx,ny});
+                    }
                 }
             }
         }
 
-        return -1; // never reach
+        return -1;
     }
 };
-
-
-auto init = []() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    return 'c';
-}();
