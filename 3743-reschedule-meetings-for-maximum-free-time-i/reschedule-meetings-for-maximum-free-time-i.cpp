@@ -1,6 +1,8 @@
 class Solution {
 public:
     int maxFreeTime(int eventTime, int k, vector<int>& st, vector<int>& et) {
+
+        // What a Crazy Crazy Solution Sushant..!
      vector<pair<int,int>>tmp;
      vector<pair<char,int>>v;
      int n=st.size();
