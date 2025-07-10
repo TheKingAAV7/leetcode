@@ -6,7 +6,7 @@ public:
          set<int>st;
          stack<int>v;
          int pos2=0,pos1=0;
-         while(true){
+         while(pos2<n){
             while(pos1<n and st.find(popped[pos2])==st.end()){
                 st.insert(pushed[pos1]);
                 v.push(pushed[pos1]);
