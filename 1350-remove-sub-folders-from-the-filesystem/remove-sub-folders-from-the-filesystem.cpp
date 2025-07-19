@@ -6,7 +6,7 @@ public:
             return a.length()<b.length();
         });
         vector<string>ans;
-        unordered_set<string>st;
+        set<string>st;
         for(auto it:folder){
             string tmp="";
             bool f=false;
