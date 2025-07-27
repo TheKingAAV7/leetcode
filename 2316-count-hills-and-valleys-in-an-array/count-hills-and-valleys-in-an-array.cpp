@@ -21,9 +21,7 @@ public:
         }
         ans.push_back({ele,cnt});
         n=ans.size();
-        for(auto it:ans){
-            cout<<it.first<<" "<<it.second<<endl;
-        }
+        
         int res=0;
         for(int i=1;i<n-1;i++){
             int cur=ans[i].first;
