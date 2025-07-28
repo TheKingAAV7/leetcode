@@ -1,22 +1,20 @@
 class Solution {
-private: 
-int f(int i, int n, vector<int>&nums,int maxi, int curor ){
-    if(curor==maxi){
-         return 1<<(nums.size()-i);
-    } 
-    if(i>=n) return 0;
-    int tmp= curor | nums[i];
-    int take=f(i+1,n,nums,maxi,tmp);
-    int ntake=f(i+1, n, nums, maxi, curor);
-    return take+ntake;
+private:
+void f(int i, vector<int>&nums,int &maxi, int cur, int &cnt){
+    if(i>=nums.size()){
+        if(cur==maxi) cnt++;
+        return;
+    }
+    f(i+1,nums,maxi, cur|nums[i],cnt);
+    f(i+1,nums,maxi,cur,cnt);
+    return ;
 }
 public:
     int countMaxOrSubsets(vector<int>& nums) {
         int maxi=0;
-        for(int i: nums){
-            maxi |= i;
-        }
-         
-         return f(0, nums.size(),nums , maxi, 0);
+        for(int i:nums) maxi|=i;
+        int cnt=0;
+        f(0,nums,maxi,0,cnt);
+        return cnt;
     }
 };
