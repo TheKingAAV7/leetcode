@@ -16,12 +16,11 @@ public:
                 if(tmp>>j&1){
                     v[j]=i;
                 }
-            }
-            for(int j=0;j<32;j++){
                 if(taxi>>j&1){
                     res=max(res,v[j]);
                 }
             }
+            
 
             if(maxi==0) ans.push_back(1);
             else
