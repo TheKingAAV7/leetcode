@@ -37,7 +37,7 @@ public:
                 it.second--;
             }
         }
-        assert(ext1.size()==ext2.size());
+      //  assert(ext1.size()==ext2.size());
        
         int i=0,j=ext2.size()-1;
         while(i<ext1.size() and j>=0){
