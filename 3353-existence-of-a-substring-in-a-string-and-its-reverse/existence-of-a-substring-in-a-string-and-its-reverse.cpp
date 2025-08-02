@@ -4,16 +4,15 @@ public:
         int n=s.length();
         string t=s;
         reverse(t.begin(),t.end());
-        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
-        int maxi=0;
-        for(int i=n-1;i>=0;i--){
-            for(int j=n-1;j>=0;j--){
-                if(s[i]==t[j]){
-                    dp[i][j]=max(dp[i][j],1+dp[i+1][j+1]);
-                }
-                maxi=max(dp[i][j],maxi);
-            }
+        unordered_set<string>st;
+        for(int i=0;i<n-1;i++){
+            string tmp=string(1,s[i])+s[i+1];
+            st.insert(tmp);
         }
-        return maxi>=2;
+        for(int i=0;i<n-1;i++){
+            string tmp=string(1,t[i])+t[i+1];
+            if(st.find(tmp)!=st.end()) return true;
+        }
+        return false;
     }
 };
