@@ -63,24 +63,7 @@ public:
         // ────────────────────────────────────────────────────────────────────
 
         // your original two-pointer window, unchanged:
-        int l = 0, r = 0;
-        while (r < n) {
-            int lef = ft[l][0], rig = ft[r][0];
-            if (rig - lef > k) { l++; continue; }
-            if (sp >= lef && sp <= rig) {
-                int lsm = (l>0 ? pref[l-1] : 0);
-                int rsm = pref[r];
-                if (sp == lef || sp == rig) {
-                    ans = max(ans, rsm - lsm);
-                } else {
-                    int dl = sp - lef, dr = rig - sp;
-                    int cost = dl + dr + min(dl, dr);
-                    if (cost <= k)
-                        ans = max(ans, rsm - lsm);
-                }
-            }
-            r++;
-        }
+      
 
         return ans;
     }
