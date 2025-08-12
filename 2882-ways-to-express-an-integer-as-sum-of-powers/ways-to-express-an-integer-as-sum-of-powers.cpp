@@ -1,23 +1,42 @@
 class Solution {
 public:
-    int mod = 1e9 + 7;
-    vector<vector<int>>dp;
-    long recursion(int cur_number, long cur_sum, int x, int n)
-    {
-        if(cur_sum == n) return 1;
-        if(cur_sum > n or cur_number > n) return 0;
-
-        if(dp[cur_number][cur_sum] != -1) return dp[cur_number][cur_sum];
-
-        long power = (pow(cur_number, x));
-
-        long add = recursion(cur_number + 1, cur_sum + power, x, n);
-        long skip = recursion(cur_number + 1, cur_sum, x, n);
-        return dp[cur_number][cur_sum] = ((add + skip) % mod);
+    
+    int mod=1e9+7;
+    int binpow(int base, int exp, int mod) {
+    long long res = 1;
+    long long b = base % mod;
+    while (exp > 0) {
+        if (exp & 1)
+            res = (res * b) % mod;
+        b = (b * b) % mod;
+        exp >>= 1;
     }
-    int numberOfWays(int n, int x) 
-    {
-        dp.resize(n + 1, vector<int>(n + 1, -1));
-        return recursion(1, 0, x, n);
+    return (int)res;
+}
+
+    int f(int n, int x, int i,int sm,vector<vector<int>>&dp){
+        
+        
+        if(sm==n) {
+        // cout<<"yes"<<endl;
+        return 1;
+        }
+        if(sm>n || i>(n)) return 0;
+      //  cout<<i<<" "<<sm<<endl;
+        if(dp[i][sm]!=-1) return dp[i][sm];
+        int ans=0;
+        // ntake 
+         ans = (ans+f(n,x,i+1,sm,dp))%mod;
+        //take
+       // cout<<sm+pow(i,x)<<endl;
+         ans = (ans+f(n,x,i+1,sm+binpow(i,x,mod),dp))%mod;
+         return dp[i][sm]=ans;
+        
+    }
+    int numberOfWays(int n, int x) {
+       vector<vector<int>>dp(302,vector<int>(302,-1));
+       int ans=f(n,x,1,0,dp)%mod;
+    //   if(x==1) ans= (ans+1)%mod;
+       return ans;
     }
 };
