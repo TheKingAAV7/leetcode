@@ -1,29 +1,42 @@
 class Solution {
 public:
-    int solve(vector<vector<int>> &matrix, int m, int n, int i, int j, vector<vector<int>> &dp){
-        if(i<0 or i>=m or j<0 or j>=n or matrix[i][j] == 0){
-            return 0;
-        }
-        if(dp[i][j] != -1) return dp[i][j];
-        int right = solve(matrix, m,n,i,j+1,dp);
-        int bottom = solve(matrix, m, n, i+1, j, dp);
-        int bottom_right = solve(matrix,m,n, i+1,j+1, dp);
+    int countSquares(vector<vector<int>>& mat) {
+        // 9 + 4 + 1  ceil(n/i);
+        /*
+        1 1 1 1 
+        1 1 1 1
+        1 1 0 1 
+        1 1 1 1 
+        */
 
-        return dp[i][j] =  1 + min({right, bottom, bottom_right}); 
-    }
-    
-    int countSquares(vector<vector<int>>& matrix) {
-        int m = matrix.size();
-        int n = matrix[0].size();
-        vector<vector<int>> dp(m+1, vector<int>(n+1,-1));
-        int ans = 0;
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(matrix[i][j] == 1){
-                    ans += solve(matrix,m,n,i,j, dp);
+        int ans=0;
+        int n=mat.size(),m=mat[0].size();
+
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<m;j++) cout<<mat[i][j]<<" ";
+        //     cout<<endl;
+        // }
+        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        for(int i=n-1;i>=0;i--){
+            for(int j=m-1;j>=0;j--){
+                if(mat[i][j]==1){
+                    dp[i][j]=1+min({dp[i+1][j],dp[i][j+1],dp[i+1][j+1]});
                 }
             }
-        }    
+        }
+        // cout<<endl;
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<m;j++) cout<<dp[i][j]<<" ";
+        //     cout<<endl;
+        // }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++) {
+                ans+=dp[i][j];
+            }
+            
+        }
         return ans;
+
+        
     }
 };
