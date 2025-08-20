@@ -25,7 +25,8 @@ public:
             if(mp.find(reqm)!=mp.end()){
                 st.insert({mp[reqm]+1,i});
             }
-            mp[curm] = i;
+            if(mp.find(curm)!=mp.end()) mp[curm]=max(1ll*i,mp[curm]);
+            else mp[curm]=i;
         }
         
         vector<vector<ll>>v(st.begin(),st.end());
