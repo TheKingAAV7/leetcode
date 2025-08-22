@@ -1,3 +1,4 @@
+
 class Solution {
 public:
     int minimumArea(vector<vector<int>>& grid) {
@@ -16,6 +17,8 @@ public:
                 }
             }
         }
+  
+
         if(jmx==-1) return 0;
         // cout<<imn<<" "<<imx<<" "<<jmn<<" "<<jmx<<endl;
         // int x1=imn;
