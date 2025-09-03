@@ -7,14 +7,13 @@ public:
         int n=v.size();
       
         int maxi=0;
-         pq.push({v[n-1]-n+1,n-1});
+        int mx=INT_MIN;
+        mx=max(mx,v[n-1]-n+1);
         for(int i=n-2;i>=0;i--){
             int cur=i+v[i];
               
-                maxi=max(maxi,cur+pq.top()[0]);
-                 pq.push({v[i]-i,i});
-            
-            
+                maxi=max(maxi,cur+mx);
+                 mx=max(mx,v[i]-i);
         }
         return maxi;
 
