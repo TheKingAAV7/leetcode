@@ -41,7 +41,7 @@ public:
                 totalLevels += p.first * p.second;   
                 maxLevel = max(maxLevel, p.first);
             }
-            tmp = max(maxLevel, (totalLevels + 1) / 2); 
+            tmp = (totalLevels + 1) / 2; 
             sm+=tmp;
         }
         return sm;
