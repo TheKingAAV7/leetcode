@@ -14,9 +14,9 @@ public:
             cnt++;
             return s[a]<s[b];
         });
-        for(int i:pos) cout<<i<<" ";
-        cout<<endl;
-        cout<<cnt<<endl;
+        // for(int i:pos) cout<<i<<" ";
+        // cout<<endl;
+        // cout<<cnt<<endl;
         for(int i=0;i<tmp.size();i++){
             s[tmp[i]]=cp[pos[i]];
         }
