@@ -7,7 +7,7 @@ public:
         for(int i=0;i<n;i++){
             if(st.find(s[i])!=string::npos) cnt++;
         }
-        
-        return cnt==0?false:true;
+        if(cnt==0) return false;
+        return true;
     }
 };
