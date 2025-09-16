@@ -1,24 +1,28 @@
 class Solution {
 public:
     vector<int> replaceNonCoprimes(vector<int>& nums) {
-        // Copied -> It was just a fuckin brute force
-       
+        // 12  7 6
         int n=nums.size();
-        int st[n];
         vector<int>ans;
-        int top=-1;
-        for(int x:nums){
-            int cur=x;
-            while(top!=-1){
-                int gc=gcd(st[top],cur);
-                if(gc==1) break;
-                cur=lcm(st[top],cur);
-                top--;
+     
+        for(int i=0;i<n;i++){
+            ans.push_back(nums[i]);
+            while(ans.size()>=2 ){ 
+            int m=ans.size();
+             int gc=gcd(ans.back(),ans[m-2]);
+            if(gc>1){
+                int lc=lcm(ans.back(),ans[m-2]);
+                
+                ans.pop_back();
+                ans.pop_back();
+                ans.push_back(lc);
             }
-            st[++top]=cur;
+            else{
+               
+                break;
+            }
+            }
         }
-        
-        
-        return vector<int>(st,st+top+1);
+        return ans;
     }
 };
