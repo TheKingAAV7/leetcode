@@ -10,15 +10,7 @@ public:
                 int sm=nums[i]+nums[j];
                 auto it=lower_bound(nums.begin(),nums.end(),sm);
                 int idx=it-nums.begin();
-                if(idx==n){
-                    ans+=(n-j-1);
-
-                }
-                else{
-                 ans+=max(0,idx-j-1);
-                
-                }
-                
+                    ans+=max(0,(idx-j-1));
             }
         }
         return ans;
