@@ -3,7 +3,7 @@ public:
     long long splitArray(vector<int>& nums) {
         int n=nums.size();
         vector<long long>pref(n+1,0),suff(n+1,0);
-        vector<long long>psm(n+1,0),ssm(n+1,0);
+        long long sm=accumulate(nums.begin(),nums.end(),0ll);
         int prev=-1;
         int cnt=1;
         for(int i=0;i<n;i++){
@@ -21,26 +21,19 @@ public:
             }
             else break;
         }
-        long long sm=0;
-        for(int i=0;i<n;i++){
-            sm+=nums[i];
-            psm[i]=sm;
-        }
-        sm=0;
-        for(int i=n-1;i>=0;i--){
-            sm+=nums[i];
-            ssm[i]=sm;
-        }
+        long long cur=0;
         long long ans=LLONG_MAX;
         // for(int i:pref) cout<<i<<" ";
         // cout<<endl;
         // for(int i:suff) cout<<i<<" ";
         // cout<<endl;
         for(int i=0;i<n-1;i++){
+            cur+=nums[i];
+            long long left=sm-cur;
             int leftot=i+1;
             int rigtot=(n-(i+1));
             if(pref[i]==leftot and suff[i+1]==rigtot){
-                ans=min(ans,1ll*abs(psm[i]-ssm[i+1]));
+                ans=min(ans,1ll*abs(left-cur));
             }
         }
         if(ans==LLONG_MAX) return -1;
