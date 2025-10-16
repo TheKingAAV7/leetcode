@@ -1,11 +1,11 @@
 class Solution {
 public:
     int findSmallestInteger(vector<int>& nums, int k) {
-        map<int,int>mp;
-        for(int i:nums){
+        unordered_map<int,int>mp;
+        for(int &i:nums){
             if(i<0){
-                int tmp=abs(i);
-                mp[(k-(tmp%k))%k]++;
+                i=abs(i);
+                mp[(k-(i%k))%k]++;
             }
             else{
                 mp[i%k]++;
