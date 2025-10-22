@@ -39,7 +39,8 @@ public:
                 if(s[i]==a) diff++;
                 else if(s[i]==b) diff--;
                 else{
-                 mp.clear();
+                map<int,int>tmp;
+                 mp.swap(tmp);
 
                 }
 
