@@ -1,16 +1,13 @@
 class Solution {
 public:
-    bool asteroidsDestroyed(int ma, vector<int>& ast) {
-        int n=ast.size();
-        long long mass=ma;
-        sort(ast.begin(),ast.end());
-        for(int i=0;i<n;i++){
-            if(mass>=ast[i]){
-                mass+=ast[i];
-            }
-            else return false;
+    bool asteroidsDestroyed(int mass, vector<int>& arr) {
+        int n=arr.size();
+        long long cur=mass;
+        sort(arr.begin(),arr.end());
+        for(int i=0;i<arr.size();i++){
+            if(cur<arr[i]) return false;
+            cur+=arr[i];
         }
         return true;
-        
     }
 };
