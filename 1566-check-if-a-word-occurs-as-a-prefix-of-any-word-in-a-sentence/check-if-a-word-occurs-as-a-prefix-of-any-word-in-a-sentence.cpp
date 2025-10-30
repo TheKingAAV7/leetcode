@@ -1,27 +1,20 @@
 class Solution {
 public:
-    int isPrefixOfWord(string sentence, string searchWord) {
-        string tmp="";
-        unordered_map<string, int>mp;
+    int isPrefixOfWord(string sent, string tar) {
+        unordered_map<string,int>mp;
+        mp[tar]=1;
         int pos=1;
-        
-        for(char c: sentence){
-           // cnt++;
-            if(c==' '){
-             tmp="";
-             pos++;
+        string tmp;
+        for(char c:sent){
+            if(c==' ') {
+                tmp.clear();
+                pos++;
+                continue;
             }
-            else {
-            tmp+=c;
-            if(mp.find(tmp)!=mp.end()){
-                mp[tmp]=(pos,mp[tmp]);
-            }
-            else
-            mp[tmp]=pos;
-            }
-            
+            tmp.push_back(c);
+            if(mp.find(tmp)!=mp.end()) return pos;
         }
-        if(mp.find(searchWord)!=mp.end()) return mp[searchWord];
         return -1;
+        
     }
 };
