@@ -1,25 +1,32 @@
 class Solution {
 public:
-    int strStr(string hs, string ned) {
-        string s=ned+"#"+hs;
-        int n=s.length();
-        int m=ned.length();
+    int strStr(string s, string pat) {
+        
+        int m=pat.length();
+        string str= pat + "#" + s;
+        int n=str.length();
         vector<int>z(n,0);
         int l=0,r=0;
-        for(int i=m+1;i<n;i++){
+        for(int i=1;i<n;i++){
             if(i<=r){
-                z[i]=min(z[i-l],r-i+1);
+                z[i]=min(r-i+1,z[i-l]);
             }
-                while(s[z[i]]==s[i+z[i]]) z[i]++;
-                if(i+z[i]-1>r){
+
+            while(str[z[i]]==str[i+z[i]]) z[i]++;
+                if(z[i]+i-1>r){
+                    r=z[i]+i-1;
                     l=i;
-                    r=i+z[i]-1;
                 }
-            
         }
-       
-        for(int i=m+1;i<n;i++) if(z[i]==m) return i-m-1;
+        // cout<<str<<endl;
+        // for(int i:z) cout<<i<<" ";
+        // cout<<endl;
+        int pos=0;
+        for(int i=m+1;i<n;i++){
+            if(z[i]==m) return pos;
+            pos++;
+        }
         return -1;
-        
+
     }
 };
