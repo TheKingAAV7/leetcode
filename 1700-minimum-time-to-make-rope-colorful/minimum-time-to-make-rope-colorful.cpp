@@ -7,7 +7,9 @@ public:
         int n=col.length();
         int maxi=0;
         char prev='.';
+        int total= 0;
         for(int i=0 ;i<n;i++){
+            total+=arr[i];
             if(col[i]!=prev){
                
                 ans+=maxi;
@@ -22,7 +24,7 @@ public:
         }
         ans+=maxi;
 
-        int total= accumulate(arr.begin(),arr.end(),0);
+        
         return total-ans;
         
     }
