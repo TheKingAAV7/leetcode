@@ -1,44 +1,34 @@
 class Solution {
 public:
     vector<int> findXSum(vector<int>& nums, int k, int x) {
-        unordered_map<int, int>mp;
-        vector<int>ans;
+        
         int n=nums.size();
-        for(int i=0;i<k;i++){
-            mp[nums[i]]++;
-        }
-        vector<pair<int, int>>vs(mp.begin(),mp.end());
-        sort(vs.begin(),vs.end(),[&](pair<int, int>a, pair<int, int>b){
-                if(a.second==b.second) return a.first>b.first;
-                return a.second>b.second;
-        });
-        // for(auto [i, j]: v) cout<<i<<" "<<j<<endl;
-        int sm=0;
-        for(int i=0;i<min((int)vs.size(),x);i++){
-            sm+=vs[i].second*vs[i].first;
-        }
-        ans.push_back(sm);
-       
+        vector<int>ans;
         int l=0;
-         for(int i=k;i<n;i++){
-            mp[nums[l]]--;
-            l++;
-            mp[nums[i]]++;
-               vector<pair<int, int>>v(mp.begin(),mp.end());
-        sort(v.begin(),v.end(),[&](pair<int, int>a, pair<int, int>b){
-                if(a.second==b.second) return a.first>b.first;
-                return a.second>b.second;
-        });
-        // cout<<"NUE"<<endl;
-        //  for(auto [i, j]: v) cout<<i<<" "<<j<<endl;
-        //  cout<<"U"<<endl;
-        int sm=0;
-        for(int i=0;i<min((int)v.size(),x);i++){
-            sm+=v[i].second*v[i].first;
-        }
-        ans.push_back(sm);
+        for(int i=0;i<=n-k;i++){
+            map<int,set<int,greater<int>>>mp;
+            map<int,int>mp1;
+            int sm=0;
+            for(int j=0;j<k;j++){
+                mp1[nums[i+j]]++;
+            }
 
-         }
+            // for(auto it:mp1) cout<<it.first<<" "<<it.second<<endl;
+
+            // cout<<endl;
+            priority_queue<array<int,2>>pq;
+            for(auto it:mp1){
+                pq.push({it.second,it.first});
+            }
+            int tx= x;
+            while(!pq.empty() and tx--){
+                auto cur= pq.top();
+                sm+=(cur[1]*cur[0]);
+                pq.pop();
+            }
+            ans.push_back(sm);
+
+        }
         return ans;
     }
 };
