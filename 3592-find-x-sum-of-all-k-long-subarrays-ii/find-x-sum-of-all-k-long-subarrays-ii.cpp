@@ -1,140 +1,189 @@
 #define ll long long
-
-class comp1{
-public:
-    //{least frequent, smaller number}
-    bool operator()(auto &a,auto &b) const{
-        if(a.first==b.first) return a.second<b.second;
-
-        return a.first<b.first;
-    }
-};
-
-class comp2{
-public:
-    // {most frequent,bigger number}
-    bool operator()(auto &a,auto &b) const{
-        if(a.first==b.first) return a.second>b.second;
-
-        return a.first>b.first;
-    }
-};
-
 class Solution {
 public:
     vector<long long> findXSum(vector<int>& nums, int k, int x) {
+        /*
+
+        1) Count frequency of all elements of  k length subarrays -> map
+
+        2) Keep only top x most frequent elements bigger one first..  -> map<freq,vector<ele>> (maybe)
+        3) Sum  - pending
+
+        Observations:
+           while shifting the window, what will happen?
+
+           1) New element can be added
+           2) no. of unique decreases, stays the same.
+
+           the problem is SUM
+
+           1) we are removing an element
+            so, first check, if this element was part of topx
+            i) if not, ignore..
+            ii) if yes -> only one occurence will be decreased.. 
+
+          2) Adding at last
+             i) increases freq
+             ii) check if this can become part of topx
+
+
+             1 1 2 2 3 4 2    (2,3)  (1,4) (1,3) (1,1)
+                              (2,3)       -> 6- 2 + 2
+                    
+
+        */
+
         int n=nums.size();
-        //map to keep frequency of each element
-        unordered_map<int ,ll>mp;
-        //sum to keep final sum after each window
-        ll sum=0;
-        for(int i=0;i<k;i++)
-        {
+
+        map<int,int>mp;
+        set<array<int,2>,greater<array<int,2>>>topx;
+        set<array<int,2>,greater<array<int,2>>>tobe;
+        vector<ll>ans;
+
+        for(int i=0;i<k;i++){
             mp[nums[i]]++;
         }
-        int i=0;
-        vector<ll>ans;
-        set<pair<ll,int>,comp1>s1;//up->most likely to get out from here
-        set<pair<ll,int>,comp2>s2,s;//up->most likely to come in s1
+        for(auto it:mp){
+            tobe.insert({it.second,it.first});
+        }
 
-        for(auto &val: mp)
-        {
-            s.insert({val.second,val.first});
+        
+        // insert topx
+        long long sm=0;
+        int tmpx=x;
+       // for(auto it:tobe) cout<<it[0]<<" "<<it[1]<<endl;
+        while(!tobe.empty() and ((int)topx.size())< x){
+            auto cur= *tobe.begin();
+            topx.insert(cur);
+            sm+= (1ll* cur[0]*cur[1]);
+            tobe.erase(tobe.begin());
         }
-        int cnt=0;
-        //tranfer element belonging to appropriate set s1 or s2
-        while(!s.empty())
-        {
-            auto [c,v]=*s.begin();
-            s.erase(s.begin());
-            if(cnt<x)
-            {
-                s1.insert({c,v});
-                sum+=c*v;
-            }
-            else
-            {
-                s2.insert({c,v});
-            }
-            cnt++;
-        }
-        ans.push_back(sum);
-        //window from i to j
-        //NOTE: whenever s1 is update sum will also be updated
-        for(int j=k;j<n;j++)
-        {
-            //now remove all cases because of number nums[i]
-            if(s1.find({mp[nums[i]],nums[i]})==s1.end())
-            {
-                //found in s2
-                auto it=s2.find({mp[nums[i]],nums[i]});
-                // it->first--;
-                if(it!=s2.end())
-                {
-                    s2.erase(it);
+        ans.push_back(sm);
+
+        for(int i=k;i<n;i++){
+            int rmele= nums[i-k];
+            int freqrm= mp[nums[i-k]];
+
+            mp[rmele]--;
+            if(mp[rmele]==0) mp.erase(rmele);
+            // check if it's in topx 
+            array<int,2> tof= {freqrm,rmele};
+            auto it= topx.find(tof);
+            if(it!=topx.end()){
+                //delete this
+                sm-=(1ll*rmele*freqrm);
+                topx.erase(it);
+
+                // decrease freq and insert in tobe
+                freqrm--;
+                if(freqrm>0) tobe.insert({freqrm,rmele});
+
+                int newele= nums[i];
+                int newfreq= mp[nums[i]];
+                mp[nums[i]]++;
+
+                array<int,2> nele={newfreq,newele};
+                auto it1= topx.find(nele);
+                if(it1!=topx.end()){
+                    topx.erase(it1);
+                    sm+= newele;
+                    topx.insert({newfreq+1,newele});
                 }
-                s2.insert({mp[nums[i]]-1,nums[i]});
-                mp[nums[i]]--;
-            }
-            else
-            {
-                //found in s1
-                auto it=s1.find({mp[nums[i]],nums[i]});
-                // *it->first--;
-                if(it!=s1.end())s1.erase(it);
-                s1.insert({mp[nums[i]]-1,nums[i]});
-                mp[nums[i]]--;
-                sum-=nums[i];
-            }
-            i++;
-            //now remove all cases because of nums[j]
-            if(s1.find({mp[nums[j]],nums[j]})==s1.end())
-            {
-                //found in s2
-                auto it=s2.find({mp[nums[j]],nums[j]});
-                // *it->first++;
-                if(it!=s2.end())s2.erase(it);
-                s2.insert({mp[nums[j]]+1,nums[j]});
-                mp[nums[j]]++;
-            }
-            else
-            {
-                //found in s1
-                auto it=s1.find({mp[nums[j]],nums[j]});
-                // *it->first++;
-                if(it!=s1.end())s1.erase(it);
-                s1.insert({mp[nums[j]]+1,nums[j]});
-                mp[nums[j]]++;
-                sum+=nums[j];
-            }
-            //make size of set s1 to x if possible
-            while(s1.size()<x && s2.size()>0)
-            {
-                auto v2=*s2.begin();
-                s2.erase(s2.begin());
-                s1.insert(v2);
-                sum+=v2.first*v2.second;
-            }
-            //now swap the positions of top of s1 and top of s2 if:
-            // 1-> top frequency count of s1 < top frequency count of s2
-            // 2-> if frequency equal and s1 element value < s2 element value
-            while(s2.size()>0)
-            {
-                auto v1=*s1.begin();
-                auto v2=*s2.begin();
-                if(v1.first<v2.first || (v1.first==v2.first && v1.second<v2.second))
-                {
-                    sum-=v1.first*v1.second;
-                    sum+=v2.first*v2.second;
-                    s1.erase(s1.begin());
-                    s2.erase(s2.begin());
-                    s1.insert({v2.first,v2.second});
-                    s2.insert({v1.first,v1.second});
+                else{
+                    auto it2= tobe.find(nele);
+                    if(it2!=tobe.end()) tobe.erase(it2);
+                    tobe.insert({newfreq+1,newele});
+
                 }
-                else break;
+
+                while(!tobe.empty() and ((int)topx.size())< x){
+                        auto cur= *tobe.begin();
+                        topx.insert(cur);
+                        sm+= (1ll* cur[0]*cur[1]);
+                        tobe.erase(tobe.begin());
+                }
+
+                while(!tobe.empty() and !topx.empty() and (( (*tobe.begin())[0]> ( (*topx.rbegin())[0])) || ( (*tobe.begin())[0])==( (*topx.rbegin())[0]) and (( (*tobe.begin())[1]> ( (*topx.rbegin())[1])))  )){
+                   auto ls= *(prev(topx.end()));
+                    sm-= (1ll* ls[0]*ls[1]);
+                    topx.erase(prev(topx.end()));
+                    topx.insert({ (*tobe.begin())[0],(*tobe.begin())[1]});
+
+                    sm+=(1ll *(*tobe.begin())[0]*(*tobe.begin())[1]);
+                    tobe.erase(tobe.begin());
+                    tobe.insert({ls[0],ls[1]});
+                }
+
             }
-            ans.push_back(sum);
+            else{
+
+                // mp[rmele]--;
+                // if(mp[rmele]==0) mp.erase(rmele);
+                auto it1= tobe.find(tof);
+              //  cout<<tof[0]<<" "<<tof[1]<<endl;
+                if(it1!=tobe.end()) 
+                tobe.erase(it1);
+
+                // decrease freq and insert in tobe
+                freqrm--;
+                if(freqrm>0) tobe.insert({freqrm,rmele});
+
+                int newele= nums[i];
+                int newfreq= mp[nums[i]];
+                mp[nums[i]]++;
+
+                array<int,2> nele={newfreq,newele};
+                auto it2= topx.find(nele);
+
+                if(it2!=topx.end()){
+                    topx.erase(it2);
+                    sm+= newele;
+                    topx.insert({newfreq+1,newele});
+                }
+                else{
+                    auto it3= tobe.find(nele);
+                    if(it3!=tobe.end()) tobe.erase(it3);
+                    
+                    tobe.insert({newfreq+1,newele});
+
+                }
+
+                 while(!tobe.empty() and ((int)topx.size())< x){
+                        auto cur= *tobe.begin();
+                        topx.insert(cur);
+                        sm+= (1ll*cur[0]*cur[1]);
+                        tobe.erase(tobe.begin());
+                }
+
+               while(!tobe.empty() and  !topx.empty() and (( (*tobe.begin())[0]> ( (*topx.rbegin())[0])) || ( (*tobe.begin())[0])==( (*topx.rbegin())[0]) and (( (*tobe.begin())[1]> ( (*topx.rbegin())[1])))  )){
+
+                   auto ls= *(prev(topx.end()));
+                    sm-= (1ll*ls[0]*ls[1]);
+                    topx.erase(prev(topx.end()));
+                    topx.insert({ (*tobe.begin())[0],(*tobe.begin())[1]});
+
+                    sm+=(1ll * ( *tobe.begin())[0]*(*tobe.begin())[1]);
+                    tobe.erase(tobe.begin());
+                    tobe.insert({ls[0],ls[1]});
+
+                }
+
+
+            }
+
+            ans.push_back(sm);
+
+            // for(auto it:topx) cout<<"( "<<it[0]<<" "<<it[1]<<" ) ";
+            // cout<<endl;
+            // for(auto it:tobe) cout<<"( "<<it[0]<<" "<<it[1]<<" ) ";
+            // cout<<endl;
+
+           // cout<<endl;
+            
+
         }
         return ans;
+
+
     }
 };
