@@ -1,56 +1,73 @@
 class Solution {
-private:
-void dfs(int node,vector<int>&vis,vector<vector<int>>&adj,int pos){
-    if(vis[node]!=-1) return ;
-    vis[node]=pos;
-    for(auto it:adj[node]){
-        if(vis[it]==-1) dfs(it,vis,adj,pos);
-    }
-    return;
-}
 public:
-    vector<int> processQueries(int c, vector<vector<int>>& con, vector<vector<int>>& q) {
-        
-        vector<vector<int>>adj(c+1);
-        for(auto it:con){
+    vector<int> processQueries(int n, vector<vector<int>>& edges, vector<vector<int>>& que) {
+        vector<vector<int>>adj(n+1);
+        for(auto it:edges){
             adj[it[0]].push_back(it[1]);
             adj[it[1]].push_back(it[0]);
         }
-        vector<int>vis(c+1,-1);
-       
-        int pos=0;
-        for(int i=1;i<=c;i++){
-            if(vis[i]==-1){
-                dfs(i,vis,adj,pos);
-                pos++;
+
+
+        
+        unordered_map<int,set<int>>mp;
+        unordered_map<int,int>nodpar;
+        vector<int>vis(n+1,0);
+        int par=0;
+
+        function<void(int,int)> dfs=[&](int node, int par)->void{
+            vis[node]=1;
+            mp[par].insert(node);
+            nodpar[node]=par;
+            for(auto it:adj[node]){
+                if(!vis[it]) dfs(it,par);
+            }
+            return;
+        };
+
+        for(int i=1;i<=n;i++){
+            if(!vis[i]){
+                dfs(i,par);
+                par++;
             }
         }
-        int maxi=*max_element(vis.begin(),vis.end());
-        vector<set<int>>v(maxi+1);
-        for(int i=1;i<=c;i++){
-            v[vis[i]].insert(i);
-        }
-        for(auto it:v){
-            for(auto x:it) cout<<x<<" ";
-            cout<<endl;
-        }
+
+        // for(auto it:mp){
+        //     cout<<it.first<<" : ";
+        //     for(int i:it.second) cout<<i<<" ";
+        //     cout<<endl;
+        // }
+
+        // for(auto it:nodpar){
+        //     cout<<it.first<<" "<<it.second<<endl;
+        // }
         vector<int>ans;
-        for(auto it:q){
-            if(it[0]==1){
-                if(v[vis[it[1]]].size()==0) ans.push_back(-1);
+        for (auto it:que){
+            int op= it[0];
+            int nod= it[1];
+            if(op==1){
+                // if(nodpar.find(nod)==nodpar.end()){
+                //     ans.push_back(-1) ;
+                //     continue;
+                // }
+                int parent= nodpar[nod];
+               
+                if(mp[parent].size() == 0) ans.push_back(-1);
                 else{
-                auto it1=v[vis[it[1]]].find(it[1]);
-                if(it1!=v[vis[it[1]]].end()) ans.push_back(it[1]);
-                else
-                 ans.push_back(*v[vis[it[1]]].begin());
+                    if(mp[parent].find(nod)!=mp[parent].end()){
+                        ans.push_back(nod);
+                    }
+                    else ans.push_back(*(mp[parent].begin()));
                 }
             }
             else{
-                auto it1=v[vis[it[1]]].find(it[1]);
-                if(it1!=v[vis[it[1]]].end()) v[vis[it[1]]].erase(it1);
+                int parent = nodpar[nod];
+                auto cur= mp[parent].find(nod);
+                if(cur!=mp[parent].end()){
+                 mp[parent].erase(cur);
+                 //nodpar.erase(nod);
+                }
             }
         }
         return ans;
-        
     }
 };
