@@ -1,13 +1,10 @@
 class Solution {
 public:
-    int findFinalValue(vector<int>& nums, int o) {
-        multiset<int>st;
-        for(int i:nums) st.insert(i);
-        while(st.find(o)!=st.end()){
-            auto it=st.find(o);
-            st.erase(it);
-            o*=2;
-        }
-        return o;
+    int findFinalValue(vector<int>& nums, int original) {
+        set<int>st(nums.begin(),nums.end());
+        int cur= original ;
+        while(st.find(cur)!=st.end()) cur*=2;
+
+        return cur;
     }
 };
