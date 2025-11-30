@@ -8,7 +8,7 @@ public:
        if(sm%p==0) return 0;
       // cout<<req<<endl;
        int ans=INT_MAX;
-       map<long long,int>mp;
+       unordered_map<long long,int>mp;
        int curmod=0;
        mp[curmod]= -1;
        for(int i=0;i<n;i++){
