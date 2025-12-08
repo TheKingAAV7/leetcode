@@ -43,8 +43,8 @@ public:
             return;
         };
         f1(1,-1);
-        for(int i:dp) cout<<i<<" ";
-        cout<<endl;
+        // for(int i:dp) cout<<i<<" ";
+        // cout<<endl;
 
         vector<int>ans=dp;
         
