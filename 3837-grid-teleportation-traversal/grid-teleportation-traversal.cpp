@@ -16,7 +16,7 @@ public:
             for(int j=0;j<m;j++){
                 if(mat[i][j]!='.' and mat[i][j]!='#'){
                     tele[mat[i][j]-'A'].push_back({i,j});
-                    adj[i][j].push_back({0,mat[i][j]-'A',m+1});
+                    adj[i][j].push_back({1,mat[i][j]-'A',m+1});
                 }
             }
         }
@@ -68,7 +68,7 @@ public:
                     int w= it[0];
                     int i1= it[1];
                     int j1= it[2];
-                    int ndist= w + cost;
+                    int ndist= cost;
                     if(ndist<d2[i1]){
                         d2[i1]=ndist;
                         pq.push({ndist,i1,j1});
