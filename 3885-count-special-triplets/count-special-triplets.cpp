@@ -6,7 +6,9 @@ public:
       int mod = 1e9+7;
       int ans=0;
       vector<int>pref(n,0);
-      unordered_map<int,int>mp,mp1;
+      int MAX_N= 2e5+1;
+      vector<int>mp1(MAX_N,0),mp(MAX_N,0);
+     
       for(int i=0;i<n;i++){
         int req= nums[i]*2;
         pref[i]=mp[req];
