@@ -1,31 +1,27 @@
 class Solution {
 public:
     int specialTriplets(vector<int>& nums) {
-        int m=1e9+7;
-        vector<int>mp(2e+5+2,0),lef(2e+5+2,0);
-        for(int i:nums){
-            mp[i]=(mp[i]+1)%m;
-        }
-        int n=nums.size();
-        long long cnt=0;
-        lef[nums[0]]++;
-        for(int i=1;i<n-1;i++){
-            long long x=nums[i];
+      // 2 1 2 1 2   
+      int n=nums.size();
+      int mod = 1e9+7;
+      int ans=0;
+      vector<int>pref(n,0),suff(n,0);
+      map<int,int>mp;
+      for(int i=0;i<n;i++){
+        int req= nums[i]*2;
+        pref[i]=mp[req];
+        mp[nums[i]]++;
+      }
+      mp.clear();
+      for(int i=n-1;i>=0;i--){
+        int req= nums[i]*2;
+        suff[i]= mp[req];
+        long long x= ((1ll*pref[i])%mod * (1ll*suff[i])%mod)%mod;
+        ans=(ans%mod + x%mod )%mod;
 
-            
-            long long tof=x*2;
-             long long rig;
-             if(x==0){
-                rig=(mp[tof]%m-lef[tof]%m)%m-1;
-            }
-            else
-             rig=(mp[tof]%m-lef[tof]%m)%m;
-            long long left=lef[tof]%m;
-            long long tmp=(left%m*rig%m)%m;
-            
-            cnt=(cnt%m+tmp%m)%m;
-            lef[nums[i]]=(lef[nums[i]]+1)%m;
-        }
-        return (int)cnt;
+        mp[nums[i]]++;
+
+      }
+      return ans;
     }
 };
