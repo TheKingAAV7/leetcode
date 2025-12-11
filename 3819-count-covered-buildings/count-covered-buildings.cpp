@@ -3,16 +3,18 @@ public:
     
     
     int countCoveredBuildings(int n, vector<vector<int>>& arr) {
-        int sz1= (int)1e5+1;
-        vector<array<int,2>>row(sz1,{-1,-1}),colo(sz1,{-1,-1});
+        const int sz1= (int)1e5+1;
+         vector<int>row[sz1],colo[sz1];
+         
+         
         int N= arr.size();
         
         int cnt=0;
-        array<int,2>tmp={-1,-1};
+    
         for(int i=0;i<N;i++){
             int cur_row= arr[i][0];
             int cur_col= arr[i][1];
-            if(row[cur_row]==tmp){
+            if(row[cur_row].size()==0){
               
                 row[cur_row]={cur_col,cur_col};
             }
@@ -22,7 +24,7 @@ public:
                 row[cur_row][1]= max(row[cur_row][1],cur_col);
               //  cout<<cur_row<<" s"<<cur_col<<endl;
             }
-            if(colo[cur_col]==tmp){
+            if(colo[cur_col].size()==0){
                 colo[cur_col]={cur_row,cur_row};
             }
             else{
