@@ -2,7 +2,7 @@ class Solution {
 public:
     int countCoveredBuildings(int n, vector<vector<int>>& arr) {
         int N= arr.size();
-        map<int,array<int,2>>row,colo;
+        unordered_map<int,array<int,2>>row,colo;
         int cnt=0;
 
         for(int i=0;i<N;i++){
