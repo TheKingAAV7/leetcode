@@ -1,8 +1,12 @@
 class Solution {
 public:
+    
+    
     int countCoveredBuildings(int n, vector<vector<int>>& arr) {
+        int sz1= (int)1e5+1;
+        vector<array<int,2>>row(sz1,{-1,-1}),colo(sz1,{-1,-1});
         int N= arr.size();
-        vector<array<int,2>>row(n+1,{-1,-1}),colo(n+1,{-1,-1});
+        
         int cnt=0;
         array<int,2>tmp={-1,-1};
         for(int i=0;i<N;i++){
