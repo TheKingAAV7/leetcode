@@ -2,13 +2,13 @@ class Solution {
 public:
     int countCoveredBuildings(int n, vector<vector<int>>& arr) {
         int N= arr.size();
-        unordered_map<int,array<int,2>>row,colo;
+        vector<array<int,2>>row(n+1,{-1,-1}),colo(n+1,{-1,-1});
         int cnt=0;
-
+        array<int,2>tmp={-1,-1};
         for(int i=0;i<N;i++){
             int cur_row= arr[i][0];
             int cur_col= arr[i][1];
-            if(row.find(cur_row)==row.end()){
+            if(row[cur_row]==tmp){
               
                 row[cur_row]={cur_col,cur_col};
             }
@@ -18,7 +18,7 @@ public:
                 row[cur_row][1]= max(row[cur_row][1],cur_col);
               //  cout<<cur_row<<" s"<<cur_col<<endl;
             }
-            if(colo.find(cur_col)==colo.end()){
+            if(colo[cur_col]==tmp){
                 colo[cur_col]={cur_row,cur_row};
             }
             else{
