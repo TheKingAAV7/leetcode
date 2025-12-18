@@ -1,79 +1,83 @@
 class Solution {
-int N;
-vector<int>st;
-
-void build(int idx, int lef, int rig, string &s){
-    if(lef==rig){
-        st[idx]=0;
-        return;
-    }
-
-    int mid=(lef+rig)>>1;
-    build(2*idx+1,lef,mid,s);
-    build(2*idx+2,mid+1,rig,s);
-    // left last right first
-    int cur=0;
-    if(mid+1<N and s[mid]==s[mid+1]) cur=1;
-    
-    st[idx]= cur + st[2*idx+1] + st[2*idx+2];
-   
-    return;
-}
-
-void up(int idx, int lef, int rig, int i,string &s){
-    if(lef==rig){
-        if(s[lef]=='A') s[lef]='B';
-        else s[lef]='A';
-        st[idx]=0;
-        return;
-    }
-
-    int mid=(lef+rig)>>1;
-    if(i<=mid)
-    up(2*idx+1,lef,mid,i,s);
-    else
-    up(2*idx+2,mid+1,rig,i,s);
-    int cur=0;
-    if(mid+1<N and s[mid]==s[mid+1]) cur=1;
-    
-    st[idx]= cur + st[2*idx+1] + st[2*idx+2];
-   
-    return;
-    
-}
-int query(int idx, int lef, int rig, int l, int r,string &s){
-    if(lef==l and rig==r) return st[idx];
-    int mid=(lef+rig)>>1;
-    if(r<=mid) return query(2*idx+1,lef,mid,l,r,s);
-    if((mid+1)<=l) return query(2*idx+2,mid+1,rig,l,r,s);
-    int left=query(2*idx+1,lef,mid,l,mid,s);
-    int right=query(2*idx+2,mid+1,rig,mid+1,r,s);
-    int cur=0;
-    if(mid+1<N and s[mid]==s[mid+1]) cur=1;
-    int res= left+right+cur;
-    return res;
-}
 public:
     vector<int> minDeletions(string s, vector<vector<int>>& queries) {
         int n=s.length();
-        N=n;
-        st.resize(4*n);
+        int B= ceil(sqrt(1.0*n));
+        vector<int>dp(B,0);
         vector<int>ans;
-        build(0,0,n-1,s);
-        
 
+        function<int(int, int)>query=[&](int l, int r){
+            int b1= l/B;
+            int b2= r/B;
+            if(b1==b2){
+               
+                int cnt=0;
+                for(int i=l+1;i<=r;i++){
+                    cnt+=(s[i]==s[i-1]);
+                }
+                return cnt;
+            }
+            int cnt=0;
+            for(int i=b1+1;i<b2;i++){
+                int strt= i*B;
+                int prev= strt-1;
+                if(s[prev]==s[strt]) cnt++;
+                cnt+=dp[i];
+            }
+           
+            int lstrt= l;
+            int lend= min(((b1)*B + B-1), n-1);
+
+            int rstrt= b2*B;
+            int rend= r;
+            for(int i=lstrt+1;i<=lend;i++){
+                cnt+=(s[i]==s[i-1]);
+            }
+            for(int i=rstrt;i<=rend;i++){
+                if(i>=1) cnt+=(s[i]==s[i-1]);
+            }
+            return cnt;
+
+        };
+
+        function<void(int)>update=[&](int idx)->void{
+            if(s[idx]=='A') s[idx]='B';
+            else s[idx]='A';
+            int block=idx/B;
+            int start= block*B;
+            int end= min(start+B,n);
+            int cnt=0;
+            for(int i=start+1;i<end;i++){
+                if(s[i]==s[i-1]) cnt++;
+            }
+            dp[block]=cnt;
+            return;
+        };
+        for(int i=1;i<n;i++){
+            if (s[i] == s[i - 1]) {
+                if (i / B == (i - 1) / B) {        
+                    int block = i / B;
+                    dp[block]++;
+                }
+            }
+        }
         for(auto it:queries){
-          if(it[0]==2){
-            int l=it[1];
-            int r=it[2];
-            int tmp= query(0,0,n-1,l,r,s);
-            ans.push_back(tmp);
-          }
-          else{
-            up(0,0,n-1,it[1],s);
-          }  
+            if(it[0]==1){
+                int id=it[1];
+                update(id);
+            }
+            else{
+                int lef=it[1];
+                int rig=it[2];
+                int tmp= query(lef,rig);
+                ans.push_back(tmp);
+
+            }
+            // int tt=query(0,n-1);
+            // cout<<tt<<endl;
+            // for(int i:dp) cout<<i<<" ";
+            // cout<<endl;
         }
         return ans;
-        
     }
 };
