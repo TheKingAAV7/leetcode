@@ -54,11 +54,11 @@ public:
             return;
         };
         for(int i=1;i<n;i++){
-            if (s[i] == s[i - 1]) {
-                if (i / B == (i - 1) / B) {        
-                    int block = i / B;
-                    dp[block]++;
-                }
+            int block1= i/B;
+            int block2= (i-1)/B;
+            if(s[i]==s[i-1]){
+                if(block1==block2)
+                    dp[block1]++;
             }
         }
         for(auto it:queries){
