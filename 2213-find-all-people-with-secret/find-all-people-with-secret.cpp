@@ -43,13 +43,13 @@ public:
             pq.pop();
             int tim= cur[0];
             int node= cur[1];
-            // cout<<node<<endl;
+            
             if(tim>dist[node]) continue;
             for(auto it:adj[node]){
                 int nei= it[1];
                 int reqtime=it[0];
                 
-                // cout<<node<<" "<<nei<<endl;
+                
                 if(tim<=reqtime){
                     
                     if(reqtime<dist[nei]){
