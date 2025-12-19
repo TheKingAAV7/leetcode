@@ -8,10 +8,10 @@ public:
             adj[it[0]].push_back({it[2],it[1]});
             adj[it[1]].push_back({it[2],it[0]});
         }
-        for(int i=0;i<n;i++){
-            sort(adj[i].begin(),adj[i].end());
-            //sort(adj[it[1]].begin(),adj[it[1]].end());
-        }
+        // for(int i=0;i<n;i++){
+        //     sort(adj[i].begin(),adj[i].end());
+        //     //sort(adj[it[1]].begin(),adj[it[1]].end());
+        // }
 
      
         // vector<int>vis(n,0);
