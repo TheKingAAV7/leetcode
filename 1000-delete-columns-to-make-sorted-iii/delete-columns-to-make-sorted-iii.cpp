@@ -14,10 +14,23 @@ Observations:
 
    we can delete any index , we want to choose minimum indices to be deleted to make each string valid
 
+Think of case where there's only one string -> we'll find longest increasing subsequence and answer=(m-LIS)
 
-"aabbaa"
-"baabab"
-"aaabab"
+for multiple strings,what can be the LONGEST COMMON INCREASING SUBSEQUENCE?
+If we get that ,our answer will be m-LCIS
+
+how to calculate LCIS
+let dp[i] represents LCIS starting from column i
+i.e. dp[i]=1 for all i
+now, (IMPORTANT)
+Transition
+let's take two pair of indices (for column) i and j
+if strs[row][i] <= strs[row][j] for all rows
+then we can do dp[i]=max(dp[i],1+dp[j])
+if even a single ( strs[row][i] > strs[row][j] )  occurs
+we can't consider this index as a common part i.e dp[i] will still be 1
+and finally our answer is  m - max(dp[i])
+
 
 */
 
@@ -40,9 +53,9 @@ public:
             }
             if(poss){ 
             dp[i]=max(dp[i],1+dp[j]);
-           // if(dp[i]==6) cout<<i<<endl;
+           
             }
-            //dp[i]=max(dp[i],dp[j]);
+           
         }
      }
      int mx=0;
