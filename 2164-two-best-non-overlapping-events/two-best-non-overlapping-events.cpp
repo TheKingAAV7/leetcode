@@ -1,42 +1,33 @@
 class Solution {
 public:
     int maxTwoEvents(vector<vector<int>>& events) {
-        int n = events.size();
+        int ans=0;
+        int n=events.size();
+        for(auto it:events) ans=max(ans,it[2]);
+
+        vector<int>suff(n,0);
         
-        sort(events.begin(), events.end(), [](const vector<int>& a, const vector<int>& b) {
-            return a[0] < b[0];
-        });
-        
-        vector<int> suffixMax(n);
-        suffixMax[n - 1] = events[n - 1][2];
-        
-        for (int i = n - 2; i >= 0; --i) {
-            suffixMax[i] = max(events[i][2], suffixMax[i + 1]);
+        sort(events.begin(),events.end());
+        //for(auto it:events) cout<<it[0]<<" "<<it[1]<<endl;
+
+        int mx=0;
+        for(int i=n-1;i>=0;i--){
+            mx= max(mx,events[i][2]);
+            suff[i]=mx;
         }
         
-        int maxSum = 0;
-        
-        for (int i = 0; i < n; ++i) {
-            int left = i + 1, right = n - 1;
-            int nextEventIndex = -1;
-            
-            while (left <= right) {
-                int mid = left + (right - left) / 2;
-                if (events[mid][0] > events[i][1]) {
-                    nextEventIndex = mid;
-                    right = mid - 1;
-                } else {
-                    left = mid + 1;
-                }
+       // cout<<endl;
+        for(int i=0;i<n;i++){
+            int cur= events[i][2];
+            vector<int>tmp= {events[i][1]+1,-1,-1};
+            auto it= lower_bound(events.begin(),events.end(),tmp);
+            if(it!=events.end()){
+                int idx= it-events.begin();
+               // cout<<idx<<" "<<suff[idx]<<endl;
+                ans=max(ans,suff[idx]+cur);
+               // cout<<"sdf "<<ans<<endl;
             }
-            
-            if (nextEventIndex != -1) {
-                maxSum = max(maxSum, events[i][2] + suffixMax[nextEventIndex]);
-            }
-            
-            maxSum = max(maxSum, events[i][2]);
         }
-        
-        return maxSum;
+        return ans;
     }
 };
