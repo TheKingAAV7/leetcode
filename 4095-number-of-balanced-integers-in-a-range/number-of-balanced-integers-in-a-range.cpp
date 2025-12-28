@@ -1,7 +1,7 @@
 class Solution {
 using ll = long long;
 public:
-        ll dp[16][2][2][16][270][2];
+        ll dp[16][2][2][3][270][2];
 
         // od+ ,ev-
         //16,2,2,16,135,2
@@ -10,7 +10,7 @@ public:
             return cnt>=2 and sm==0; 
         }
         
-        if(dp[idx][leading_zero][tight][cnt][sm+135][par]!=-1) return dp[idx][leading_zero][tight][cnt][sm+135][par];
+        if(dp[idx][leading_zero][tight][min(cnt,2)][sm+135][par]!=-1) return dp[idx][leading_zero][tight][min(cnt,2)][sm+135][par];
         int mx= tight?(num[idx]-'0') : 9;
         ll ans=0;
         
@@ -22,7 +22,7 @@ public:
             }
             else  ans+=f(idx+1,lzero,tight && i==mx,cnt+(!lzero),sm-i,!par,num);
         }
-        return  dp[idx][leading_zero][tight][cnt][sm+135][par] = ans;
+        return  dp[idx][leading_zero][tight][min(cnt,2)][sm+135][par] = ans;
     }
     ll caller(ll num){
         memset(dp,-1,sizeof(dp));
