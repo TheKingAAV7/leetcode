@@ -1,22 +1,29 @@
+#define ll long long
 class Solution {
 public:
     long long maxMatrixSum(vector<vector<int>>& matrix) {
-        int minValue = INT_MAX;
-        long long sum = 0;
-        int negCount = 0;
-
-        for (int i = 0; i < matrix.size(); i++) {
-            for (int j = 0; j < matrix[0].size(); j++) {
-                if (matrix[i][j] < 0)
-                    negCount++;
-                int absValue = abs(matrix[i][j]);
-                minValue = min(minValue, absValue);
-                sum += absValue;
+        ll sm=0;
+        int n=matrix.size();
+        int m= matrix[0].size();
+        int neg=0;
+        ll mini=INT_MAX;
+        int zer=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(matrix[i][j]==0) zer=1;
+                if(matrix[i][j]<0) {
+                    
+                    neg++;
+                }
+                mini= min(mini,(ll)abs(matrix[i][j]));
+                sm+= abs(matrix[i][j]);
             }
         }
-
-        if (negCount % 2 == 0)
-            return sum;
-        return sum - 2 * minValue;
+        cout<<neg<<" "<<sm<<endl;
+        if(neg%2==0){
+            return sm;
+        }
+        if(zer) return sm;
+        return sm-2ll*mini;
     }
 };
