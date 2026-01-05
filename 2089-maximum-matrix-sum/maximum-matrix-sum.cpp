@@ -19,7 +19,6 @@ public:
                 sm+= abs(matrix[i][j]);
             }
         }
-        cout<<neg<<" "<<sm<<endl;
         if(neg%2==0){
             return sm;
         }
