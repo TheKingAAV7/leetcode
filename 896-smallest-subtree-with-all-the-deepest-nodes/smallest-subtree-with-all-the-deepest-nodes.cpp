@@ -8,81 +8,58 @@
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
+
+
+ first capture all the deepest leaves
+ for each node see, if it contains all those deepest leaves, if yest , it is the answer
+ if there are mulitple such nodes, pick the one which has largest depth..
  */
 class Solution {
-    private:
-void dfs(TreeNode* root,int &maxi,int cur){
-    if(!root) return ;
-    maxi=max(maxi,cur);
-    dfs(root->left,maxi,cur+1);
-    dfs(root->right,maxi,cur+1);
-    return;
-}
-void f(TreeNode* root, int &maxi,vector<TreeNode*>&mp,int cur){
-    if(!root) return;
-    if(cur==maxi) mp.push_back(root);
-    f(root->left,maxi,mp,cur+1);
-    f(root->right,maxi,mp,cur+1);
-    return;
-}
-
-string lcp(vector<string>& strs) {
-    if (strs.empty()) return "";
-
-    string prefix = strs[0]; 
-    for (int i = 1; i < strs.size(); i++) {
-        while (strs[i].find(prefix) != 0) { 
-            prefix = prefix.substr(0, prefix.length() - 1);
-            if (prefix.empty()) return "";
-        }
-    }
-    return prefix;
-}
-
-bool f1(TreeNode* root,string &tmp,TreeNode* reqnode){
-if(!root) return false;
-if(root==reqnode) return true;
-
-bool c1=f1(root->left,tmp,reqnode);
-bool c2=f1(root->right,tmp,reqnode);
-
-if(c1){
-    tmp.push_back('L');
-    return true;
-}
-else if(c2){
-    tmp.push_back('R');
-    return true;
-}
-return false;
-
-}
-
 public:
     TreeNode* subtreeWithAllDeepest(TreeNode* root) {
-        int maxi=0;
-        vector<TreeNode*>nds;
-        vector<string>st;
-        dfs(root,maxi,0);
-        f(root,maxi,nds,0);
-        for(auto it:nds){
-            string tmp="";
-            f1(root,tmp,it);
-            
-            reverse(tmp.begin(),tmp.end());
-            st.push_back(tmp);
-           
-        }
-        string ans=lcp(st);
-        int pos=0;
-        TreeNode* res=root;
-        while(pos<ans.length()){
-            if(ans[pos]=='L'){
-                root=root->left;
+
+        map<int,vector<TreeNode*>>mp;
+        map<TreeNode*, int>dep;
+        
+        function<void(TreeNode* ,int )>capturedeep=[&](TreeNode* cur, int depth){
+            if(!cur) return;
+            mp[depth].push_back(cur);
+            dep[cur]=depth;
+            if(cur->left) capturedeep(cur->left, depth+1);
+            if(cur->right) capturedeep(cur->right,depth+1);
+
+            return;
+        };
+        capturedeep(root,0);
+        int lst= mp.rbegin()->first;
+        vector<TreeNode*>leaves= mp.rbegin()->second;
+        sort(leaves.begin(),leaves.end());
+       
+        TreeNode* ans= NULL;
+
+        function<void(TreeNode* , vector<TreeNode*>&)>check=[&](TreeNode* cur, vector<TreeNode*>&tmp){
+            if(dep[cur]==lst) tmp.push_back(cur);
+            if(cur->left) 
+            check(cur->left,tmp);
+            if(cur->right)
+             check(cur->right,tmp);
+            return; 
+         };
+        function<void(TreeNode*)>dfs=[&](TreeNode* cur)->void{
+            if(ans!=NULL) return;
+            if(cur->left)
+            dfs(cur->left);
+            if(cur->right) dfs(cur->right);
+            vector<TreeNode*>tmp;
+            check(cur,tmp);
+            if(ans==NULL and tmp.size()== leaves.size()){
+                ans= cur;
+                return;
             }
-            else root=root->right;
-            pos++;
-        }
-        return root; 
+        };
+
+        dfs(root);
+        return ans;
+        
     }
 };
