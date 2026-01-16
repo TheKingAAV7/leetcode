@@ -20,7 +20,7 @@ public:
 
 
         // find the maximum difference between two elements, which is common in both..
-        map<int,int>HDiff,VDiff;
+        unordered_map<int,int>HDiff;
         for(int i=0;i<SizeH;i++){
             for(int j=i+1;j<SizeH;j++){
                 int diff= hFences[j]-hFences[i];
