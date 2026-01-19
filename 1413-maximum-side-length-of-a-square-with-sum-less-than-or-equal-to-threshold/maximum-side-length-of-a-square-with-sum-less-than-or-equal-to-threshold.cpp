@@ -5,7 +5,8 @@ public:
         int m= mat[0].size();
         int ans=0;
 
-        vector<vector<int>>pref(n,vector<int>(m,0));
+        int pref[n][m];
+        memset(pref,0,sizeof(pref));
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 int cur= mat[i][j];
