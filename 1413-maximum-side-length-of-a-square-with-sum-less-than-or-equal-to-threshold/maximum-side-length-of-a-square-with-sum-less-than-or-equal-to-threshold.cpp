@@ -16,11 +16,11 @@ public:
                 pref[i][j]= cur + up + left - common;
             }
         }
-        for(int len=min(n,m);len>0;len--){
+        for(int len=min(n,m);len>=1;len--){
             for(int i=0;i+len-1<n;i++){
                 for(int j=0;j+len-1<m;j++){
-                    int dx= i+len-1;
-                    int dy= j+len-1;
+                    int dx= i+len-1; // for row
+                    int dy= j+len-1; // for column
                     // find the total sm;
                     int total= pref[dx][dy];
                     int up= (i-1>=0)?pref[i-1][dy]:0;
@@ -34,4 +34,3 @@ public:
         return 0;
     }
 };
-auto init=atexit([]{ofstream("display_runtime.txt")<<"0";});
