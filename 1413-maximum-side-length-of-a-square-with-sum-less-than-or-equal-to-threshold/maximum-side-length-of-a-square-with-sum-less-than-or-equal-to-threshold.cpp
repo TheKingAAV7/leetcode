@@ -5,8 +5,7 @@ public:
         int m= mat[0].size();
         int ans=0;
 
-        int pref[n][m];
-        memset(pref,0,sizeof(pref));
+        vector<vector<int>>pref(n,vector<int>(m,0));
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 int cur= mat[i][j];
@@ -17,14 +16,7 @@ public:
                 pref[i][j]= cur + up + left - common;
             }
         }
-        int lo= 1;
-        int hi= min(n,m);
-
-        
-        while(lo<=hi){
-            int len= (lo+hi)>>1;
-            int mid=len;
-            bool flag=false;
+        for(int len=min(n,m);len>0;len--){
             for(int i=0;i+len-1<n;i++){
                 for(int j=0;j+len-1<m;j++){
                     int dx= i+len-1;
@@ -35,21 +27,11 @@ public:
                     int left= (j-1>=0)? pref[dx][j-1] : 0;
                     int common= (i-1>=0 and j-1>=0)? pref[i-1][j-1]:0;
                     int sm= total-up-left+common;
-                    if(sm<=threshold) {
-                        flag= true;
-                        break;
-                    }
+                    if(sm<=threshold) return len;
                 }
-                if(flag) break;
             }
-            if(flag){
-                ans= len;
-                lo= mid+1;
-            }
-            else hi= mid-1;
         }
-        return ans;
+        return 0;
     }
 };
-
 auto init=atexit([]{ofstream("display_runtime.txt")<<"0";});
