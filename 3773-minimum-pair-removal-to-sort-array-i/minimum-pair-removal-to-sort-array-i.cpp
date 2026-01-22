@@ -14,7 +14,7 @@ public:
                  }
              }
              if(!f){
-              return ans;
+               break;
               } // the array is already sorted in non-decreasing way.
 
               // the array is unsatisfactory => perform the operation
@@ -34,6 +34,6 @@ public:
              ans++;
              
         }
-        return 0;
+        return ans;
     }
 };
