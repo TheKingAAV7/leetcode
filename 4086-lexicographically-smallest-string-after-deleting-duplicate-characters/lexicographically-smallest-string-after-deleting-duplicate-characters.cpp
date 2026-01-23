@@ -62,8 +62,8 @@ public:
             }
             fin.push_back(ans[i]);
         }
-        cout<<ans<<endl;
-        cout<<fin<<endl;
+        // cout<<ans<<endl;
+        // cout<<fin<<endl;
         char lst= fin.back();
         if(fin.size()==1) return fin;
 
