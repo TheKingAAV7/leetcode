@@ -5,7 +5,7 @@ public:
        sort(nums.begin(),nums.end()); // never forget to sort..
        int ans=0;
        int i=0,j=n-1;
-       while(i<j){
+       while(i<=j){
         int pairsm= nums[i]+nums[j];
         ans=max(pairsm,ans);
         i++;
