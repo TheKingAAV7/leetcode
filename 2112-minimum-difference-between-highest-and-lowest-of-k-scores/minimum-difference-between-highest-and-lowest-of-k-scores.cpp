@@ -1,15 +1,14 @@
 class Solution {
 public:
     int minimumDifference(vector<int>& nums, int k) {
-        int n=nums.size();
+        int ans=INT_MAX; //1e10
         sort(nums.begin(),nums.end());
-        int i=k-1;
-        int j=0;
-        int ans=INT_MAX;
-        while(i<n){
-            ans=min(ans,nums[i]-nums[j]);
-            i++;j++;
+        int n=nums.size();
+        for(int i=0;i+k-1<n;i++){
+            int current_difference= nums[i+k-1]- nums[i];
+            ans=min(ans,current_difference);
         }
         return ans;
+        
     }
 };
