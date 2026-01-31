@@ -1,45 +1,35 @@
 class NumArray {
-private:
-    vector<int> segtree;
-    vector<int>nums;
-    int n;
-   int bt(int i, int lef, int rig ){
-    if(lef==rig){
-        segtree[i]=nums[lef];
-        return segtree[i];
-    }
-
-    int mid=(lef+rig)/2;
-    int left=bt(2*i+1,lef,mid);
-    int right=bt(2*i+2,mid+1,rig);
-    segtree[i]=left+right;
-    return segtree[i];
-   }
-
-    int query(int i, int lef, int rig, int l, int r ){
-        if(lef==l and rig==r) return segtree[i];
-        int mid=(lef+rig)/2;
-        if(r<=mid){
-            return query(2*i+1,lef, mid, l, r);
-        }
-        else if((mid+1)<=l){
-            return query(2*i+2,mid+1,rig,l,r);
-        }
-        int left= query(2*i+1,lef, mid, l,mid);
-        int right=query(2*i+2,mid+1, rig,mid+1, r);
-        return left+right;
-    }
-
 public:
-    NumArray(vector<int>& nums1) {
-         n = nums1.size();
-         nums=nums1;
-        segtree.resize(4 * n, 0);
-        bt(0, 0, n - 1);
-    }
+    int n;
+    int K=25;
+    vector<vector<int>>dp;
+    NumArray(vector<int>& nums) {
+        n=nums.size();
+        dp.resize(n,vector<int>(K,0));
+        for(int i=0;i<n;i++) dp[i][0]=nums[i];
 
+        for(int k=1;k<K;k++){
+            for(int i=0;i+(1<<(k-1))<n;i++){
+                dp[i][k]= dp[i][k-1] + dp[i+(1<<(k-1))][k-1];
+            }
+        }
+
+    }
+    
     int sumRange(int left, int right) {
-        return query(0,0,n-1,left,right);
+        int val=(right-left+1);
+        int pos=0;
+        int idx=left;
+        int ans=0;
+        while(val>0){
+            if(val&1){
+                ans+=dp[idx][pos];
+                idx+=(1<<pos);
+            }
+            pos++;
+            val>>=1;
+        }
+        return ans;
     }
 };
 
