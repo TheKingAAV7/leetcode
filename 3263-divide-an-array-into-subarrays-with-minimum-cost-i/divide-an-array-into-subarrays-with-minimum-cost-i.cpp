@@ -1,31 +1,16 @@
 class Solution {
 public:
     int minimumCost(vector<int>& nums) {
-        set<pair<int,int>>st;
-        for(int i=0;i<nums.size();i++){
-            st.insert({nums[i],i});
+        int n=nums.size();
+        vector<int>suffmin(n,INT_MAX);
+        int mn=INT_MAX;
+        for(int i=n-1;i>=0;i--){
+            suffmin[i]=mn;
+            mn=min(mn,nums[i]);
         }
-        auto it=st.begin();
-        int ans=0;
-        int i=it->second;
-        ans+=(it->first);
-        it++;
-        int j=it->second;
-        int lef=min(i,j);
-        int rig=max(i,j);
-        ans+=(it->first);
-        it++;
-      
-       // cout<<ans<<endl;
-        while(it!=st.end()){
-            int id=it->second;
-            if( (id==0 || (lef==0)) ) {
-       //  cout<<id<<endl;
-            return ans+it->first;
-            }
-        
-
-            it++;
+        int ans=INT_MAX;
+        for(int i=1;i<n-1;i++){
+            ans= min(ans,nums[0]+nums[i]+suffmin[i]);
         }
         return ans;
     }
