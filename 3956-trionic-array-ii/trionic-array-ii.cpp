@@ -83,51 +83,54 @@ public:
             suff[i]=sm;
         }
 
+        // for(ll i:  pref) cout<<i<<" ";
+        // cout<<endl;
+        // for(ll i:suff) cout<<i<<" ";
+        // cout<<endl;
+        // cout<<endl;
         SparseTable st1(n,pref),st2(n,suff);
         ll ans=LLONG_MIN;
         for(int i=1;i<n-1;i++){
             int pidx=i;
             int qidx=i+stdec[i]-1;
             int lefidx = i-endinc[i]+1;
-
+            
             ll psm= pref[i];
             ll qsm= suff[qidx];
+            // ll lefmostsm= lefidx>=1?pref[lefidx1-1]:0ll;
             int rigidx=qidx+stinc[qidx]-1;
             if(lefidx<pidx and pidx<qidx and qidx<rigidx){
-                // --- compute min prefix before left segment (pref index = l-1) ---
-                ll minip = LLONG_MAX;
-                int L1 = lefidx-1;
-                int R1 = pidx-2;
-                if(L1 <= R1){
-                    int Lq = max(0, L1);
-                    int Rq = min(n-1, R1);
-                    if(Lq <= Rq) minip = st1.query(Lq, Rq);
-                }
-                if(lefidx==0) minip = min(minip, 0ll);
+            // ll rigmostsm= ((rigidx+1)<n):suff[rigidx+1]:0ll;
+            ll minip = LLONG_MAX;
+            int L = max(0, lefidx - 1);
+            int R = pidx - 2;
+            if (L <= R) minip = st1.query(L, R);
 
-                // --- compute min suffix after right segment (suff index = r+1) ---
-                ll miniq = LLONG_MAX;
-                int L2 = qidx+2;
-                int R2 = rigidx+1;
-                if(L2 <= R2){
-                    int Lq2 = max(0, L2);
-                    int Rq2 = min(n-1, R2);
-                    if(Lq2 <= Rq2) miniq = st2.query(Lq2, Rq2);
-                    // if range includes index n (i.e. r+1 == n), include suff[n] == 0
-                    if(R2 >= n) miniq = min(miniq, 0ll);
-                }
-                if(rigidx==n-1) miniq = min(miniq, 0ll);
-
-                ll bwsm= pref[qidx-1]-pref[pidx];
-                ll lefsm= psm-minip;
-                ll rigsm= qsm-miniq;
-
-                ll totalsm= lefsm+bwsm+rigsm;
-                ans=max(ans,totalsm);
+            ll miniq=LLONG_MAX;
+            if(qidx+2<=n-1 and qidx+2<=rigidx+1)
+             miniq= st2.query(min(qidx+2,n-1),min(n-1,rigidx+1));
+         //   cout<<psm<<" "<<minip<<" "<<qsm<<" "<<miniq<<endl;
+            if(lefidx==0){
+             minip= min(minip,0ll);
+             //cout<<"YES"<<endl;
+            }
+            if(rigidx==n-1) miniq= miniq= min(miniq,0ll);
+            ll bwsm= pref[qidx-1]-pref[pidx];
+            ll lefsm= psm-minip;
+            ll rigsm= qsm-miniq;
+          //  cout<<i<<" "<<lefidx<<" "<<pidx<<" "<<qidx<<" "<<rigidx<<endl;
+            ll totalsm= lefsm+bwsm+rigsm;
+            // cout<<"SUM is: "<<lefsm<<" "<<bwsm<<" "<<rigsm<<endl;
+            // cout<<i<<" "<<totalsm<<endl;
+            // cout<<endl;
+            ans=max(ans,totalsm);
             }
 
         }
 
         return ans;
+
+
+        
     }
 };
