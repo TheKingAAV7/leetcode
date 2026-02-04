@@ -17,7 +17,7 @@
  */
 class Solution {
 public:
-    map<TreeNode*,int>dp;
+    unordered_map<TreeNode*,int>dp;
     int ans=0;
     int mx=INT_MIN;
     void f(TreeNode* root){
