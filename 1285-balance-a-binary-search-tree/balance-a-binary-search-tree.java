@@ -16,7 +16,7 @@
 
 import java.util.*;
 class Solution {
-    public void inorder(TreeNode root,Vector<Integer>v){
+    public void inorder(TreeNode root,ArrayList<Integer>v){
         if(root==null) return;
         inorder(root.left,v);
         v.add(root.val);
@@ -25,7 +25,7 @@ class Solution {
 
     }
 
-    public TreeNode f(int lef, int rig, Vector<Integer>v){
+    public TreeNode f(int lef, int rig, ArrayList<Integer>v){
         if(lef>rig) return null;
         if(lef==rig){
            
@@ -38,7 +38,7 @@ class Solution {
         return root;
     }
     public TreeNode balanceBST(TreeNode root) {
-        Vector<Integer>v= new Vector<>();
+        ArrayList<Integer>v= new ArrayList<>();
         inorder(root,v);
       //  for(int i:v) System.out.print(i+" ");
 
