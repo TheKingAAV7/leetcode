@@ -3,8 +3,8 @@ class Solution {
         int n= nums.length;
         int ans=0;
         for(int i=0;i<n;i++){
-        HashSet<Integer>ev=new HashSet<Integer>();
-        HashSet<Integer>od=new HashSet<Integer>();
+        TreeSet<Integer>ev=new TreeSet<Integer>();
+        TreeSet<Integer>od=new TreeSet<Integer>();
             for(int j=i;j<n;j++){
                 if((nums[j]&1)>0) od.add(nums[j]);
                 else ev.add(nums[j]);
