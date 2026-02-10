@@ -4,7 +4,7 @@ public:
         int n=nums.size();
         int ans=0;
         for(int i=0;i<n;i++){
-            set<int>ev,od;
+            unordered_set<int>ev,od;
             for(int j=i;j<n;j++){
                 if(nums[j]&1) od.insert(nums[j]);
                 else ev.insert(nums[j]);
