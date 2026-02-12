@@ -7,14 +7,17 @@ public:
             vector<int>mp(26,0);
             for(int j=i;j<n;j++){
                 mp[s[j]-'a']++;
-                int mx=-1,mn=n+1;
+                int mini=1e3+1;
+                int maxi=-1;
                 for(int k=0;k<26;k++){
                     if(mp[k]>0){
-                        mx=max(mx,mp[k]);
-                        mn=min(mn,mp[k]);
+                        maxi=max(maxi,mp[k]);
+                        mini=min(mini,mp[k]);
                     }
                 }
-                if(mx==mn) ans=max(ans,j-i+1);
+                if(mini!=-1){
+                    if(maxi==mini ) ans=max(ans,j-i+1);
+                }
             }
         }
         return ans;
