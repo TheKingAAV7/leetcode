@@ -1,1 +1,1 @@
-<h2>prime-number-of-set-bits-in-binary-representation Notes</h2><hr>[ Time taken: 3 m 1 s ]
+<h2>prime-number-of-set-bits-in-binary-representation Notes</h2><hr>[ Time taken: 7 m 33 s ]
