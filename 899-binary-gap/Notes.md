@@ -1,1 +1,1 @@
-<h2>binary-gap Notes</h2><hr>[ Time taken: 4 m 41 s ]
+<h2>binary-gap Notes</h2><hr>[ Time taken: 2 m 13 s ]
