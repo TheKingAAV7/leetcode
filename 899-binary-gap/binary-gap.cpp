@@ -1,15 +1,17 @@
 class Solution {
 public:
     int binaryGap(int n) {
+        int curpos=0;
+        int prev=-1;
         int ans=0;
-        for(int i=0;i<31;i++){
-            if(((n>>i)&1) == 0) continue; 
-            for(int j=i+1;j<31;j++){
-                if( ((n>>j)&1)) {
-                    ans=max(ans,j-i);
-                    break;
-                }
+        while(n>0){
+            if(n&1){
+                if(prev!=-1)
+                ans=max(ans,curpos-prev);
+                prev=curpos;
             }
+            curpos++;
+            n>>=1;
         }
         return ans;
     }
