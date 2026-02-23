@@ -3,7 +3,7 @@ public:
     bool hasAllCodes(string s, int k) {
         int n=s.length();
         // find all the substrings of length k and put them into a set
-        set<string>st;
+        unordered_set<string>st;
         for(int i=0;i<n;i++){
             if( (i+k) <= n ){
             string currentSubstring="";
