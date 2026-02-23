@@ -2,17 +2,20 @@ class Solution {
 public:
     bool hasAllCodes(string s, int k) {
         int n=s.length();
+        // find all the substrings of length k and put them into a set
         set<string>st;
-        for(int i=0;i+k<=n;i++){
-            string cur;
+        for(int i=0;i<n;i++){
+            if( (i+k) <= n ){
+            string currentSubstring="";
             for(int j=i;j<i+k;j++){
-                cur.push_back(s[j]);
+                currentSubstring.push_back(s[j]);
             }
-      
-            st.insert(cur);
+            // we have the substring starting from i of length k
+            st.insert(currentSubstring);
+            }
         }
-        int req= pow(2,k);
-     
-        return int(st.size())==req;
+        int requiredCount= pow(2,k);
+        if(st.size()==requiredCount) return true;
+        return false;
     }
 };
