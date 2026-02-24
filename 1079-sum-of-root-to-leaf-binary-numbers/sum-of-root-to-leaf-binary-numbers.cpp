@@ -12,30 +12,38 @@
 class Solution {
 public:
     int sumRootToLeaf(TreeNode* root) {
+        
+
+        string s="";
+
         int sm=0;
 
-        function<void(TreeNode* , string& )>f=[&](TreeNode* root,string &s)->void{
-            if(!root) return ;
-            if(!root->left and !root->right){
+        function<void(TreeNode*, string& )>f=[&](TreeNode* root,string &s)->void{
+            if(root==NULL) return ;
+            if(root->left==NULL and root->right==NULL){
+                // this is a leaf node 
+                // convert the binary string to intger 
                 s.push_back(root->val+'0');
-                int tmp=0;
-                for(int j=0;j<s.length();j++){
-                    if(s[s.length()-j-1]=='1'){
-                        tmp+=(1<<j);
-                    }
+           //     cout<<s<<endl;
+                int num=0;
+                int n=s.length();
+                for(int j=0;j<n;j++){
+                    if(s[n-j-1]=='1') num+=pow(2,j);
                 }
-                sm+=tmp;
+                // we have the no.
+                sm+=num;
                 s.pop_back();
                 return;
             }
+
             s.push_back(root->val+'0');
+
             f(root->left,s);
             f(root->right,s);
             s.pop_back();
             return;
         };
-        string cur;
-        f(root,cur);
+        f(root,s);
         return sm;
     }
 };
