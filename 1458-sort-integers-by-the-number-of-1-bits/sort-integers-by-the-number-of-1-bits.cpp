@@ -1,9 +1,22 @@
 class Solution {
 public:
+
+static int f(int num){
+    int cnt=0;
+    while(num>0){
+     if( (num&1) == 1){
+      cnt++;
+     } 
+     num=num>>1;
+    }
+    return cnt;
+
+}
+// __builtin_popcount returns no. of set bits..
     static bool comp(int &a, int &b ){
         // index of a > index of b
-        int cnt1= __builtin_popcount(a);
-        int cnt2= __builtin_popcount(b);
+        int cnt1= f(a);
+        int cnt2= f(b);
         if(cnt1<cnt2) return true;
         if(cnt1==cnt2) return a<b;
         return false;
