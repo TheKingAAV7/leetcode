@@ -1,41 +1,29 @@
 class Solution {
-
-
-
-string rev(string t){
-	for(int i=0;i<t.length();i++){
-     if(t[i]=='1')
-     	t[i]='0';
-     else t[i]='1';
-	}
-	reverse(t.begin(), t.end());
-	
-	
-	
-	
-	return t;
-	
-	
-	
-	
-	
-	
-	
-}
-
-string f(int n){
-	string ans="";
-	if(n==1){
-		return "0";
-	}
-	string t=f(n-1);
-	string op=rev(t);
-	ans=t+"1"+op;
-	return ans;
-}
 public:
     char findKthBit(int n, int k) {
-        string ans=f(n);
-        return ans[k-1];
+
+
+        char ans;
+        function<void(string&,int,int&)>f=[&](string &s, int n,int& k ){
+            if(n==0){
+                ans=s[k-1];
+                return;
+            }
+            
+            string tmp= s;
+            reverse(tmp.begin(),tmp.end());
+            for(char &c: tmp){
+                if(c=='0') c='1';
+                else c='0';
+            }
+            string nstr = s + "1" + tmp;
+            f(nstr,n-1,k); 
+            return;
+        };
+
+        string cur="0";
+        if(n==1) return cur[0];
+        f(cur,n,k);
+        return ans;
     }
 };
