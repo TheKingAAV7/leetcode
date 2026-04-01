@@ -48,7 +48,7 @@ public:
         }
         // cout<<endl;
         unordered_map<int,int>mp;
-        for(auto it:st){
+        for(auto &it:st){
             mp[it[0]]=it[1];
         }
         vector<int>ans;
