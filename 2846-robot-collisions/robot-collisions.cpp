@@ -47,7 +47,7 @@ public:
             // cout<<endl;
         }
         // cout<<endl;
-        map<int,int>mp;
+        unordered_map<int,int>mp;
         for(auto it:st){
             mp[it[0]]=it[1];
         }
