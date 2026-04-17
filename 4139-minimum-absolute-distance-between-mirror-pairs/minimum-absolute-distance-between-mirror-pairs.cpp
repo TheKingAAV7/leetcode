@@ -1,7 +1,9 @@
+#include <memory_resource>
+pmr::unsynchronized_pool_resource pool;
 class Solution {
 public:
     int minMirrorPairDistance(vector<int>& nums) {
-        unordered_map<string,int>mp;
+        std::pmr::unordered_map<string, int> mp{&pool};
         int n=nums.size();
         int ans=INT_MAX;
         for(int i=0;i<n;i++){
