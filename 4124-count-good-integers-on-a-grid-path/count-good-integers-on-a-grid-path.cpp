@@ -11,7 +11,7 @@ public:
     const int MX=17;
     vector<vector<vector<ll>>> dp;
      Solution() {
-        dp = vector<vector<vector<ll>>>(MX, vector<vector<ll>>(2, vector<ll>(MX, -1LL)));
+        
     }
     
 
@@ -21,7 +21,7 @@ public:
          return 1ll;
         }
         int cp= prev+1;
-        if(tight==0 and dp[i][tight][cp]!=-1) return dp[i][tight][cp];
+        if( dp[i][tight][cp]!=-1) return dp[i][tight][cp];
         // cout<<"UES"<<endl;
         // int ans=0;
         bool yes=false;
@@ -53,6 +53,7 @@ public:
         // cout<<s<<endl;
         int n=16;
         string tmp;
+        dp = vector<vector<vector<ll>>>(MX, vector<vector<ll>>(2, vector<ll>(MX, -1LL)));
         return f(0,s,1,n,-1,tmp);
     }
     long long countGoodIntegersOnPath(long long l, long long r, string directions) {
