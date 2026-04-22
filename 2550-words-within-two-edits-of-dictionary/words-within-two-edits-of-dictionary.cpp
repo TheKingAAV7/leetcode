@@ -1,13 +1,12 @@
 class Solution {
 public:
     vector<string> twoEditWords(vector<string>& queries, vector<string>& dict) {
-        int n= queries.size();
-        int m= dict.size();
+       
         vector<string>ans;
-        set<string>st;
-        for(auto s:queries){
+        
+        for(auto &s:queries){
             bool reached= false;
-            for(auto t:dict){
+            for(auto &t:dict){
                 if(s.length()!=t.length()) continue;
                 int cnt=0;
                 for(int i=0;i<s.length();i++) cnt+=(s[i]!=t[i]);
