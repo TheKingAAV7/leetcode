@@ -3,7 +3,7 @@ public:
     int maxPathScore(vector<vector<int>>& grid, int k) {
         int n= grid.size();
         int m= grid[0].size();
-        k= min(k,n+m+1);
+        k= min(k,n+m);
         int dp[n][m][k+1];
         fill(&dp[0][0][0],&dp[0][0][0]+(n*m*(k+1)),INT_MIN);
         vector<int>cost={0,1,1};
