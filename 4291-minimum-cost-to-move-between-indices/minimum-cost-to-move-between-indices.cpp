@@ -26,8 +26,7 @@ public:
             }
         }
     
-        for(int i:p2) cout<<i<<" ";
-        cout<<endl;
+        
         vector<int>ans;
         for(auto it:queries){
             int l= it[0];
