@@ -28,7 +28,7 @@ public:
     
         
         vector<int>ans;
-        for(auto it:queries){
+        for(auto &it:queries){
             int l= it[0];
             int r= it[1];
             if(l<r){
