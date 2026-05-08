@@ -47,13 +47,13 @@ public:
         }
         // set<int>p(primes.begin(),primes.end());
 
-        priority_queue<array<int,2>,vector<array<int,2>>,greater<array<int,2>>>q;
+        queue<array<int,2>>q;
         // queue<array<int,2>>q;
         vector<int>vis(n,INT_MAX);
         vis[n-1]=0;
         q.push({0,n-1});
         while(!q.empty()){
-            auto cur= q.top(); q.pop();
+            auto cur= q.front(); q.pop();
             int cost= cur[0];
             int pos= cur[1];
             int ele= nums[cur[1]];
@@ -73,11 +73,11 @@ public:
                 }
                 while(ele>1 and ele%p==0) ele/=p;
             }
-            if(pos-1>=0 and cost+1<vis[pos-1]){ 
+            if(pos-1>=0 and vis[pos-1]==INT_MAX){ 
             q.push({cost+1,pos-1});
             vis[pos-1]= cost+1;
             }
-            if(pos+1<n and cost+1<vis[pos+1]){
+            if(pos+1<n and vis[pos+1]==INT_MAX){
              q.push({cost+1,pos+1});
              vis[pos+1]= cost+1;
             }
