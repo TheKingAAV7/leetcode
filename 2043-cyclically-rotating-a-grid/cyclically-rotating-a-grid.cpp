@@ -3,22 +3,22 @@ public:
     vector<vector<int>> rotateGrid(vector<vector<int>>& grid, int k) {
         int n= grid.size();
         int m= grid[0].size();
-        vector<vector<int>>ans(n,vector<int>(m,0));
+        // vector<vector<int>>ans(n,vector<int>(m,0));
         
         vector<int>ro={1,0,-1,0};
         vector<int>col={0,1,0,-1};
         
         vector<vector<int>>vis(n,vector<int>(m,0)),vis2(n,vector<int>(m,0));
 
-        auto dfs2=[&](auto &&self, int i, int j, vector<int>&v,int dir,int idx)->void{
+        auto dfs2=[&](auto &&self, int i, int j, vector<int>&v,int dir,int &idx)->void{
             // cout<<i<<" "<<j<<endl;
             if(vis2[i][j]) return;
-            ans[i][j]=v[idx];
+            grid[i][j]=v[idx++];
             vis2[i][j]=1;
             int ni= i+ro[dir];
             int nj= j+col[dir];
             if(ni>=0 and ni<n and nj>=0 and nj<m and vis2[ni][nj]==0){
-                self(self,ni,nj,v,dir,idx+1);
+                self(self,ni,nj,v,dir,idx);
             }
             else{
                 // cout<<"YSE"<<endl;
@@ -28,7 +28,7 @@ public:
                 int ny= j+col[dir];
                 // cout<<i<<" "<<j<<" "<<nx<<" "<<ny<<endl;
                 if(nx>=0 and nx<n and ny>=0 and ny<m and vis2[nx][ny]==0){
-                self(self,nx,ny,v,dir,idx+1);
+                self(self,nx,ny,v,dir,idx);
                 }
             }
             return;
@@ -70,14 +70,14 @@ public:
                 int nxtidx= (i+k)%sz;
                 v[nxtidx]=cur[i];
             }
+            int id=0;
 
-            dfs2(dfs2,i,i,v,0,0);
-            // for(int i:v) cout<<i<<" ";
-            // cout<<endl;
+            dfs2(dfs2,i,i,v,0,id);
+            
 
         }
 
-        return ans;
+        return grid;
 
     }
 };
