@@ -5,7 +5,7 @@ public:
         for(auto &x:nums){
             string s= to_string(x);
             int sz= s.length();
-            for(int i=0;i<sz;i++) ans.push_back(s[i]-'0');
+            for(char &c:s) ans.push_back(c-'0');
         }
         return ans;
     }
