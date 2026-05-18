@@ -1,1 +1,1 @@
-<h2>jump-game-iv Notes</h2><hr>[ Time taken: 11m 43s ]
+<h2>jump-game-iv Notes</h2><hr>[ Time taken: 10m 46s ]
