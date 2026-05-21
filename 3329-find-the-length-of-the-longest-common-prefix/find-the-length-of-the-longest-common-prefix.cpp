@@ -5,7 +5,7 @@ public:
         int m= arr2.size();
         int ans=0;
         unordered_map<string,int>mp;
-        for(int x:arr1){
+        for(int &x:arr1){
             string s= to_string(x);
             string cur;
             for(char &c:s){
@@ -13,7 +13,7 @@ public:
                 mp[cur]++;
             }
         }
-        for(int x: arr2){
+        for(int &x: arr2){
             string s= to_string(x);
             string cur;
             for(char &c:s){
