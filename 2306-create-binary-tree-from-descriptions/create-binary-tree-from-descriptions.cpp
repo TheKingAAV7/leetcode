@@ -16,7 +16,7 @@
 class Solution {
 public:
     TreeNode* createBinaryTree(vector<vector<int>>& edges) {
-        map<int,TreeNode*>mp;
+        unordered_map<int,TreeNode*>mp;
         for(auto it:edges){
             int par= it[0];
             int child= it[1];
@@ -38,7 +38,7 @@ public:
             else p->right= c;
         }
         vector<TreeNode*>st;
-        set<TreeNode*>vis;
+        unordered_set<TreeNode*>vis;
         auto f=[&](auto &&self,TreeNode* node)->void{
             if(vis.count(node)) return;
             vis.insert(node);
