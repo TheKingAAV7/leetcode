@@ -1,9 +1,9 @@
-
+#define ll long long
 class Solution {
 public:
     long long maxTotalValue(vector<int>& nums, int k) {
-        int maxi=*max_element(nums.begin(),nums.end());
-        int mini=*min_element(nums.begin(),nums.end());
-        return 1ll*(maxi-mini)*k;        
+        ll mn= *min_element(nums.begin(),nums.end());
+        ll mx= *max_element(nums.begin(),nums.end());
+        return 1ll*k*(mx-mn);
     }
 };
