@@ -24,7 +24,7 @@ public:
             head= nxt;
         }
         int n=pos;
-        cout<<n<<endl;
+       
         int ans=0;
         int npos=n-1;
         while(prev){
