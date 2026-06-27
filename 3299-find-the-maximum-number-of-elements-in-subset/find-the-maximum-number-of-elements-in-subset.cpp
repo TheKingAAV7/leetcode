@@ -12,7 +12,7 @@ public:
 
       int ans=1;
 
-      set<ll>st(nums.begin(),nums.end());
+      unordered_set<ll>st(nums.begin(),nums.end());
       st.erase(1);
       if(mp[1]&1) ans=max(ans,mp[1]);
       else ans=max(ans,mp[1]-1);
