@@ -7,7 +7,7 @@ public:
       */  
       int n= nums.size();
       ll LIM= 1e9;
-      map<ll,int>mp;
+      unordered_map<ll,int>mp;
       for(ll i:nums) mp[i]++;
 
       int ans=1;
