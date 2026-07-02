@@ -10,14 +10,14 @@ public:
       int dx[4]={1,-1,0,0};
       int dy[4]={0,0,1,-1};
       deque<array<int,3>>dq;
-      if(grid[0][0]){
-      dq.push_back({1,0,0});
-      vis[0][0]=1;
-      }
-      else{ 
-      dq.push_back({0,0,0});
-      vis[0][0]=0;
-      }
+      
+      vis[0][0]=grid[0][0];
+      dq.push_back({grid[0][0],0,0});
+      
+
+      
+      
+      
 
       while(!dq.empty()){
         auto cur= dq.front(); dq.pop_front();
@@ -25,11 +25,7 @@ public:
         int i= cur[1];
         int j= cur[2]; 
         if(h>=health) continue;
-        if(i==n-1 and j==m-1){
-
-          
-            return true;
-        }
+        if(i==n-1 and j==m-1) return true;
         for(int k=0;k<4;k++){
           int nx=i+dx[k];
           int ny=j+dy[k];
