@@ -34,17 +34,10 @@ public:
           int nx=i+dx[k];
           int ny=j+dy[k];
           if(nx>=0 and nx<n and ny>=0 and ny<m){
-            if(grid[nx][ny]){
-            if(h+1<health and (h+1<vis[nx][ny])){
-                dq.push_back({h+1,nx,ny});
-                vis[nx][ny]=h+1;
-            }
-            }
-            else{
-                if(h<vis[nx][ny]){
-                dq.push_front({h,nx,ny});
-                vis[nx][ny]=h;
-                }
+            if(h+grid[nx][ny]<health and (h+grid[nx][ny]<vis[nx][ny])){
+                vis[nx][ny]=h+grid[nx][ny];
+                if(grid[nx][ny]) dq.push_back({h+1,nx,ny});
+                else dq.push_front({h,nx,ny});
             }
           }
         }
