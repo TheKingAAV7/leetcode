@@ -12,7 +12,7 @@ public:
         */
         int n= mat.size();
         int m= mat[0].size();
-        int mx= (n+m)*10 ;
+        int mx= (n+m)*9+1 ;
         int dp[n][m][mx];
         fill(&dp[0][0][0], &dp[0][0][0]+(n*m*mx),0);
         dp[n-1][m-1][0]=1;
