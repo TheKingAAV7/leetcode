@@ -1,30 +1,55 @@
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
+          /*
+
+        subsequence
+        dacbc
+        
+        abcd 
+        if for a character we get all the possible left characters on the right choose it quickly
+        if there are multiple indices choose the leftmost one
+        */
+        int n= s.length();
         vector<int>mp(26,0);
-        for(auto c:s) mp[c-'a']++;
-        int n=s.length();
-        stack<char>st;
-        set<char>vis;
-        for(int i=0;i<n;i++){
-            
-            if(vis.find(s[i])!=vis.end()){
-                mp[s[i]-'a']--;
-                continue;
-            }
-            while(!st.empty() and (s[i]<st.top()) and mp[st.top()-'a']>1 ){
-                mp[st.top()-'a']--;
-                vis.erase(st.top());
-                st.pop();
-            }
-            vis.insert(s[i]);
-            st.push(s[i]);
+        vector<vector<int>>suff(n);
+        for(int i=n-1;i>=0;i--){
+            mp[s[i]-'a']++;
+            suff[i]=mp;
+
         }
-        string ans="";
+        set<char>st(s.begin(),s.end());
+        string ans;
+        int lefpos=0;
+
+        auto allonright=[&](vector<int>&v)->bool{
+          for(char c:st){
+            if(v[c-'a']==0) return false;
+          }
+          return true;
+        };
         while(!st.empty()){
-            ans.push_back(st.top());st.pop();
+            bool found=false;
+            for(char c:st){
+                for(int i=lefpos;i<n;i++){
+                    if(s[i]==c){
+                        if(allonright(suff[i])){
+                            ans.push_back(s[i]);
+                            lefpos=i+1;
+                            found=true;
+                            break;
+                        }
+                    }
+                }
+                if(found){
+                    st.erase(c);
+                    break;
+                } 
+            }
         }
-        reverse(ans.begin(),ans.end());
+
         return ans;
+
+        
     }
 };
