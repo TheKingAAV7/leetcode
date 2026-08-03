@@ -1,0 +1,1 @@
+<h2>minimum-initial-strength-to-defeat-all-monsters Notes</h2><hr>[ Time taken: 16m 24s ]
