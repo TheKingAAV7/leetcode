@@ -1,56 +1,57 @@
 class Solution {
 public:
     vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
-        vector<pair<int,int>>v;
-        vector<int>pos;
-        int n=nums.size();
-        for(int i=0;i<n;i++){
-            v.push_back({nums[i],i});
+        // 5 3 3 33 3 3 3 3 3 3 3 33 3 3 3 3 3 3 3 3..
+
+        /*
+
+           [x-limit ,x+limit]
+         
+         (3,1) (3,2)... (5,0)
+
+         [3, 3, 3]
+
+
+         (1,0) (5,1) (3,2) (9,3)  (8,4)
+
+         (1,0) (3,2) (5,1) (8,4) (9,3)
+
+         [1, 3, 5]
+         [8, 9]
+       
+        */
+        int n= nums.size();
+
+        vector<pair<int,int>> v(n);
+        for(int i=0;i<n;++i){
+            v[i] = {nums[i],i};
         }
         sort(v.begin(),v.end());
-        for(auto it:v){
-         
-            pos.push_back(it.second);
-        }
-      
-        auto beg=0;
-        
-        int prev= v[0].first;
-        for(int i=1;i<n;i++){
-            if(v[i].first-prev>limit){
-               // cout<<i<<endl;
-                auto end= min((int)pos.size(), i);
-              
-                sort(pos.begin()+beg,pos.begin()+end);
-                
-                prev=v[i].first;
-                beg=i;
-           
-     
+
+        vector<int>result(n);
+        // vector<vector<int>>groups;
+
+        int i=0;
+        while(i<n){
+            int j=i+1;
+            while(j<n and (v[j].first - v[j-1].first <= limit)) {
+                j++;
+            }   
+
+            vector<int>index;
+            for(int x=i;x<j;++x){
+                index.push_back(v[x].second);     
             }
-            else{
-                prev=v[i].first;
+            sort(index.begin(),index.end());
+
+            // {v1,i1} {v2,i2} {v3,i3} {v4,i4} ... 
+            for(int x=i; x<j; ++x){
+                result[index[x-i]] = v[x].first;
             }
-            
-        }
-       
-        sort(pos.begin()+beg,pos.end());
-        vector<int>ans;
 
-        // for(auto it:v){
-        //     cout<<"("<<it.first<<" "<<it.second<<") ";
-        // }
-        // cout<<endl;
-        // for(auto it:pos){
-        //     cout<<it<<"      ";
-        // }
-        // cout<<endl;
-        for(int i=0;i<n;i++){
-            nums[pos[i]]=v[i].first;
+            i=j;
         }
-
         
-        return nums;
-
+        return result;
     }
 };
